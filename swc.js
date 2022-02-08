@@ -50,7 +50,7 @@ Chomp.registerTemplate('swc', function ({
   return [{
     name,
     targets,
-    deps: [...deps, ...!swcRc || env.CHOMP_EJECT ? [] : ['.swcrc'], ...env.CHOMP_EJECT ? [] : ['node_modules/@swc/core', 'node_modules/@swc/cli']],
+    deps: [...deps, ...!swcRc || ENV.CHOMP_EJECT ? [] : ['.swcrc'], ...ENV.CHOMP_EJECT ? [] : ['node_modules/@swc/core', 'node_modules/@swc/cli']],
     env,
     run: `node ./node_modules/@swc/cli/bin/swc.js $DEP -o $TARGET${
         !swcRc ? ' --no-swcrc' : ''
@@ -61,7 +61,7 @@ Chomp.registerTemplate('swc', function ({
       }${
         Object.keys(config).length ? ' ' + Object.keys(config).map(key => `-C ${key}=${config[key]}`).join(' ') : ''
       }`
-  }, ...env.CHOMP_EJECT ? [] : [...swcRc ? [] : [{
+  }, ...ENV.CHOMP_EJECT ? [] : [...swcRc ? [] : [{
     target: '.swcrc',
     invalidation: 'not-found',
     display: false,
