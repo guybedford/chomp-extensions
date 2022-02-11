@@ -86,7 +86,7 @@ Chomp.registerTask({
   name: 'swc:init',
   engine: 'deno',
   run: `
-    import * as TOML from 'https://jspm.dev/@ltd/j-toml@1';
+    import * as TOML from 'https://jspm.dev/@ltd/j-toml@1.29';
     import InputLoop from 'https://deno.land/x/input@2.0.3/index.ts';
 
     const chompfile = TOML.parse(new TextDecoder('utf-8').decode(Deno.readFileSync('chompfile.toml', 'utf-8')), { joiner: '' });
@@ -226,7 +226,8 @@ Chomp.registerTask({
     Deno.writeFileSync('chompfile.toml', new TextEncoder().encode(TOML.stringify(chompfile, {
       newline: '\\n',
       newlineAround: 'section',
-      indent: '    '
+      indent: '    ',
+      forceInlineArraySpacing: 0
     }).slice(1)));
 
     console.log('chompfile.toml updated successfully.');
