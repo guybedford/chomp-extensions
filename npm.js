@@ -16,18 +16,11 @@ Chomp.registerTemplate('npm', function ({ name, deps, env, templateOptions: { pa
       target: `node_modules/${versionIndex === -1 ? pkg : pkg.slice(0, versionIndex)}`,
       invalidation: 'not-found',
       display: false,
-      deps: ['npm:init'],
+      deps: ['package.json'],
       env,
       run: `${packageManager} install ${packages.join(' ')}${dev ? ' -D' : ''}`
     };
-  }), {
-    name: 'npm:init',
-    target: 'package.json',
-    invalidation: 'not-found',
-    display: false,
-    env,
-    run: `${packageManager} init -y`
-  }] : [{
+  })] : [{
     name,
     env,
     invalidation: 'not-found',
@@ -40,14 +33,25 @@ Chomp.registerTemplate('npm', function ({ name, deps, env, templateOptions: { pa
   }];
 });
 
+Chomp.registerTask({
+  target: 'package.json',
+  invalidation: 'not-found',
+  display: false,
+  env,
+  run: `${packageManager} init -y`
+});
+
 // Batcher for npm executions handles the following:
 // 1. Ensuring only one npm operation runs at a time
 // 2. If two npm init operations are batched, only one is run. If npm init
 //    is already running, ties additional invocations to the existing one.
 // 3. When multiple npm install operations are running at the same time,
 //    combine them into a single install operation.
+const POOL_SIZE = Number(ENV.CHOMP_POOL_SIZE);
+
 Chomp.registerBatcher('npm', function (batch, running) {
-  const queued = [], run_completions = {};
+  if (running.length >= POOL_SIZE) return;
+  const defer = [], completionMap = {};
   let batchInstall = null;
   for (const { id, run, engine, env } of batch) {
     if (engine !== 'cmd' || !run.startsWith('npm ')) continue;
@@ -55,7 +59,7 @@ Chomp.registerBatcher('npm', function (batch, running) {
     if (args[0] === 'init' && args[1] === '-y' && args.length === 2) {
       const existingNpm = running.find(({ run }) => run.startsWith('npm '));
       if (existingNpm) {
-        run_completions[id] = existingNpm.id;
+        completionMap[id] = existingNpm.id;
         continue;
       }
     }
@@ -64,7 +68,7 @@ Chomp.registerBatcher('npm', function (batch, running) {
       if (!install) return;
       if (running.find(({ run }) => run.startsWith('npm ')) ||
           batchInstall && batchInstall.isDev !== install.isDev) {
-        queued.push(id);
+        defer.push(id);
         continue;
       }
       if (!batchInstall) {
@@ -83,13 +87,13 @@ Chomp.registerBatcher('npm', function (batch, running) {
       }
     }
   }
-  const run = batchInstall ? [{
+  const exec = batchInstall ? [{
     run: `npm install${batchInstall.isDev ? ' -D' : ''} ${batchInstall.packages.join(' ')}`,
     env: batchInstall.env,
     engine: batchInstall.engine,
     ids: batchInstall.ids,
   }] : [];
-  return [queued, run, run_completions];
+  return { defer, exec, completionMap };
 
   function parseInstall (args) {
     const packages = args.filter(arg => !arg.startsWith('-') && arg.indexOf('"') === -1 && arg.indexOf("'") === -1);

@@ -1,4 +1,4 @@
-Chomp.include('./npm.js');
+Chomp.addExtension('./npm.js');
 
 Chomp.registerTemplate('svelte', function ({ name, targets, deps, env, templateOptions: { svelteConfig = null, autoInstall, ...invalid } }) {
   if (Object.keys(invalid).length)

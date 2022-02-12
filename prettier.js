@@ -1,4 +1,4 @@
-Chomp.include('./npm.js');
+Chomp.addExtension('./npm.js');
 
 Chomp.registerTemplate('prettier', function ({ name, targets, deps, env, templateOptions: { files = '.', check = false, write = true, config = null, noErrorOnUnmatchedPattern = false, autoInstall, ...invalid } }) {
   if (Object.keys(invalid).length)

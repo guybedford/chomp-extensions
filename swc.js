@@ -1,4 +1,4 @@
-Chomp.include('./npm.js');
+Chomp.addExtension('./npm.js');
 
 Chomp.registerTemplate('swc', function ({
   name,
@@ -236,7 +236,7 @@ Chomp.registerTask({
 
 // Batcher to ensure swcrc log only appears once
 Chomp.registerBatcher('swc', function (batch, running) {
-  const run_completions = {};
+  const completion_map = {};
   let existingSwcRcInit = null;
   for (const {
       id,
@@ -247,15 +247,12 @@ Chomp.registerBatcher('swc', function (batch, running) {
     if (engine !== 'cmd' || !run.trimLeft().startsWith('echo ')) continue;
     if (run.indexOf('Creating \x1b[1m.swcrc\x1b[0m') !== -1) {
       if (existingSwcRcInit !== null) {
-        run_completions[id] = existingSwcRcInit;
+        completion_map[id] = existingSwcRcInit;
       } else {
         existingSwcRcInit = id;
       }
       continue;
     }
   }
-  return [
-    [],
-    [], run_completions
-  ];
+  return { completion_map };
 });

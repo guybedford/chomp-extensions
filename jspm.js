@@ -1,4 +1,4 @@
-Chomp.include('./npm.js');
+Chomp.addExtension('./npm.js');
 
 Chomp.registerTemplate('jspm', function ({ name, targets, deps, env, templateOptions: {
   autoInstall,
