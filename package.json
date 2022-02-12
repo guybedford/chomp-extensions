@@ -7,5 +7,6 @@
   },
   "type": "script",
   "author": "Guy Bedford",
-  "license": "MIT"
+  "license": "MIT",
+  "files": ["*.js"]
 }

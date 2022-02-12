@@ -37,8 +37,7 @@ Chomp.registerTask({
   target: 'package.json',
   invalidation: 'not-found',
   display: false,
-  env,
-  run: `${packageManager} init -y`
+  run: `npm init -y`
 });
 
 // Batcher for npm executions handles the following:

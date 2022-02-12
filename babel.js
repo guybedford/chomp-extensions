@@ -1,5 +1,7 @@
 Chomp.addExtension('./npm.js');
 
+const defaultConfig = {};
+
 Chomp.registerTask({
   target: '.babelrc',
   display: false,
@@ -13,7 +15,6 @@ Chomp.registerTask({
 Chomp.registerTemplate('babel', function ({ name, targets, deps, env, templateOptions: { presets = [], plugins = [], sourceMap = true, babelRc = false, configFile = null, autoInstall, ...invalid } }) {
   if (Object.keys(invalid).length)
     throw new Error(`Invalid babel template option "${Object.keys(invalid)[0]}"`);
-  const defaultConfig = {};
   return [{
     name,
     targets,
