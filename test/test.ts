@@ -1,1 +1,1 @@
-export var p:number=5;
+export var p: number = 5;
