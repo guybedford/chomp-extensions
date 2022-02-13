@@ -3,8 +3,6 @@ version = 0.1
 [[task]]
   name = "test"
   cwd = "test"
-  run = "$CHOMP test"
-  [task.env-default]
-    CHOMP = "chomp"
+  run = "chomp test"
   [task.env]
     CHOMP_CORE = "../"
