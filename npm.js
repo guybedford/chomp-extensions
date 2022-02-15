@@ -29,7 +29,7 @@ Chomp.registerTemplate('npm', function ({ name, deps, env, templateOptions: { pa
       const versionIndex = pkg.indexOf('@', 1);
       return `node_modules/${versionIndex === -1 ? pkg : pkg.slice(0, versionIndex)}`;
     }),
-    run: `echo "\n\x1b[93mChomp\x1b[0m: Some packages are missing. Please run \x1b[1m${packageManager} install ${packages.join(' ')}${dev ? ' -D' : ''}\x1b[0m\n"`
+    run: `echo "\n\x1b[93mChomp\x1b[0m: Some packages are missing. Run \x1b[1m${packageManager} install ${packages.join(' ')}${dev ? ' -D' : ''}\x1b[0m, or add \x1b[36mauto-install = true\x1b[0m to the npm template configuration.\n"`
   }];
 });
 
