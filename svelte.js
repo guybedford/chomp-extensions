@@ -22,7 +22,7 @@ Chomp.registerTemplate('svelte', function ({ name, targets, deps, env, templateO
           css: false
         };
       `}
-      config.filename = process.env.DEP;
+      config.filename = process.env.TARGET;
 
       const source = await readFile(process.env.DEP, 'utf-8');
       const result = compile(source, config);
