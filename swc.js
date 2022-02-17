@@ -64,7 +64,7 @@ Chomp.registerTemplate('swc', function ({
   }, ...ENV.CHOMP_EJECT ? [] : [...swcRc ? [] : [{
     target: '.swcrc',
     invalidation: 'not-found',
-    display: false,
+    display: 'none',
     run: `
       echo '\n\x1b[93mChomp\x1b[0m: Creating \x1b[1m.swcrc\x1b[0m (\x1b[1m"swc-rc = true"\x1b[0m SWC template option in use)\n'
       ${isWin // SWC does not like a BOM... Powershell hacks...

@@ -1,10 +1,11 @@
-Chomp.registerTemplate('npm', function ({ name, deps, env, templateOptions: { packages, dev, packageManager = 'npm', autoInstall, ...invalid } }) {
+Chomp.registerTemplate('npm', function ({ name, deps, env, display, templateOptions: { packages, dev, packageManager = 'npm', autoInstall, ...invalid } }) {
   if (Object.keys(invalid).length)
     throw new Error(`Invalid npm template option "${Object.keys(invalid)[0]}"`);
   if (!packages)
     throw new Error('npm template requires the "packages" option to be a list of packages to install.');
   return ENV.CHOMP_EJECT ? [] : autoInstall ? [{
     name,
+    display,
     deps: [...deps, ...packages.map(pkg => {
       const versionIndex = pkg.indexOf('@', 1);
       return `node_modules/${versionIndex === -1 ? pkg : pkg.slice(0, versionIndex)}`;
@@ -15,7 +16,7 @@ Chomp.registerTemplate('npm', function ({ name, deps, env, templateOptions: { pa
     return {
       target: `node_modules/${versionIndex === -1 ? pkg : pkg.slice(0, versionIndex)}`,
       invalidation: 'not-found',
-      display: false,
+      display: 'none',
       deps: ['package.json'],
       env,
       run: `${packageManager} install ${packages.join(' ')}${dev ? ' -D' : ''}`
@@ -24,7 +25,7 @@ Chomp.registerTemplate('npm', function ({ name, deps, env, templateOptions: { pa
     name,
     env,
     invalidation: 'not-found',
-    display: false,
+    display: 'none',
     targets: packages.map(pkg => {
       const versionIndex = pkg.indexOf('@', 1);
       return `node_modules/${versionIndex === -1 ? pkg : pkg.slice(0, versionIndex)}`;
@@ -36,7 +37,7 @@ Chomp.registerTemplate('npm', function ({ name, deps, env, templateOptions: { pa
 Chomp.registerTask({
   target: 'package.json',
   invalidation: 'not-found',
-  display: false,
+  display: 'none',
   run: `npm init -y`
 });
 

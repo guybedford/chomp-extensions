@@ -4,7 +4,7 @@ const defaultConfig = {};
 
 Chomp.registerTask({
   target: '.babelrc',
-  display: false,
+  display: 'none',
   invalidation: 'not-found',
   run: `
     echo '\n\x1b[93mChomp\x1b[0m: Creating \x1b[1m.babelrc\x1b[0m (\x1b[1m"babel-rc = true"\x1b[0m Babel template option in use)\n'
