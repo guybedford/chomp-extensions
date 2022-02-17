@@ -12,6 +12,7 @@ Chomp.registerTemplate('assert', function (task) {
     throw new Error('Assertion tests must be named.');
   if (task.templateOptions.taskTemplate)
     task.template = task.templateOptions.taskTemplate;
+  task.display = task.display || 'none';
   const name = task.name;
   delete task.name;
   task.templateOptions = task.templateOptions.taskTemplateOptions;

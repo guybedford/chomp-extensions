@@ -5,6 +5,7 @@ Chomp.registerTemplate('swc', function ({
   targets,
   deps,
   env,
+  display,
   templateOptions: {
     configFile = null,
     swcRc = false,
@@ -52,6 +53,7 @@ Chomp.registerTemplate('swc', function ({
     targets,
     deps: [...deps, ...!swcRc || ENV.CHOMP_EJECT ? [] : ['.swcrc'], ...ENV.CHOMP_EJECT ? [] : ['node_modules/@swc/core', 'node_modules/@swc/cli']],
     env,
+    display,
     run: `node ./node_modules/@swc/cli/bin/swc.js $DEP -o $TARGET${
         !swcRc ? ' --no-swcrc' : ''
       }${
