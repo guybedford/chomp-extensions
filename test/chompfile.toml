@@ -2,12 +2,12 @@ version = 0.1
 default-task = 'test'
 
 extensions = [
-  'chomp:assert',
-  'chomp:prettier',
-  'chomp:jspm',
-  'chomp:svelte',
-  'chomp:swc',
-  'chomp:babel'
+  'chomp@0.1:assert',
+  'chomp@0.1:prettier',
+  'chomp@0.1:jspm',
+  'chomp@0.1:svelte',
+  'chomp@0.1:swc',
+  'chomp@0.1:babel'
 ]
 
 [template-options.npm]
