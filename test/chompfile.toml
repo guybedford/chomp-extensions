@@ -3,11 +3,12 @@ default-task = 'test'
 
 extensions = [
   'chomp@0.1:assert',
+	'chomp@0.1:babel',
+	'chomp@0.1:jspm',
   'chomp@0.1:prettier',
-  'chomp@0.1:jspm',
+	'chomp@0.1:rollup',
   'chomp@0.1:svelte',
   'chomp@0.1:swc',
-  'chomp@0.1:babel'
 ]
 
 [template-options.npm]
@@ -16,7 +17,7 @@ auto-install = true
 [[task]]
 name = 'test'
 serial = true
-deps = ['test:init', 'prettier', 'jspm', 'svelte', 'swc', 'babel']
+deps = ['test:init', 'prettier', 'jspm', 'svelte', 'swc', 'babel', 'rollup']
 
 [[task]]
 name = 'check'
@@ -168,10 +169,12 @@ export default Test;
 
 [[task]]
 name = 'swc'
-dep = 'output/lib-swc/test.js'
+deps = ['output/lib-swc/test.js', 'output/lib-swc/*.js']
 template = 'assert'
 [task.template-options]
 expect-equals = """
+import { dep } from "./dep.js";
+console.log(dep);
 export var p = 5;\n\n\n//# sourceMappingURL=test.js.map
 """
 
@@ -192,3 +195,23 @@ task-template = 'babel'
 expect-equals = """
 export var p = 5;\n\n//# sourceMappingURL=test-babel.js.map
 """
+
+[[task]]
+name = 'rollup'
+target = 'output/rollup-dist/test.js'
+deps = ['output/lib-swc/*.js']
+template = 'assert'
+[task.template-options.task-template-options]
+outdir = 'output/rollup-dist'
+entries = ['output/lib-swc/test.js']
+[task.template-options]
+task-template = 'rollup'
+expect-equals = '''
+const dep = "dep";
+
+console.log(dep);
+var p = 5;
+
+export { p };
+//# sourceMappingURL=test.js.map
+'''

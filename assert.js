@@ -12,11 +12,14 @@ Chomp.registerTemplate('assert', function (task) {
     throw new Error('Assertion tests must be named.');
   if (task.templateOptions.taskTemplate)
     task.template = task.templateOptions.taskTemplate;
-  task.display = task.display || 'none';
-  const name = task.name;
-  delete task.name;
   task.templateOptions = task.templateOptions.taskTemplateOptions;
-  return [{
+  const name = task.name;
+  if (!ENV.CHOMP_EJECT) {
+    task.display = task.display || 'none';
+    delete task.name;
+  }
+  // ejection of assertions ejects assertions usage
+  return !ENV.CHOMP_EJECT ? [{
     name,
     dep: '&next',
     engine: 'node',
@@ -44,5 +47,5 @@ Chomp.registerTemplate('assert', function (task) {
         throw new Error('Chomp assert template did not assert anything! There must be an template option "expect-equals" check.');
       }
     `
-  }, task];
+  }, task] : [task];
 });

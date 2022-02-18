@@ -12,7 +12,7 @@ Chomp.registerTask({
   `
 });
 
-Chomp.registerTemplate('babel', function ({ name, targets, deps, env, templateOptions: { presets = [], plugins = [], sourceMap = true, babelRc = false, configFile = null, autoInstall, ...invalid } }) {
+Chomp.registerTemplate('babel', function ({ name, targets, deps, env, templateOptions: { presets = [], plugins = [], sourceMaps = true, babelRc = false, configFile = null, autoInstall, ...invalid } }) {
   if (Object.keys(invalid).length)
     throw new Error(`Invalid babel template option "${Object.keys(invalid)[0]}"`);
   return [{
@@ -21,7 +21,7 @@ Chomp.registerTemplate('babel', function ({ name, targets, deps, env, templateOp
     deps: [...deps, ...!babelRc || ENV.CHOMP_EJECT ? [] : ['.babelrc'], ...ENV.CHOMP_EJECT ? [] : presets.map(p => `node_modules/${p}`), ...plugins.map(p => `node_modules/${p}`), ...ENV.CHOMP_EJECT ? [] : ['node_modules/@babel/core', 'node_modules/@babel/cli']],
     env,
     run: `babel $DEP -o $TARGET${
-        sourceMap ? ' --source-maps' : ''
+        sourceMaps ? ' --source-maps' : ''
       }${
         plugins.length ? ` --plugins=${plugins.join(',')}` : ''
       }${
