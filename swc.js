@@ -53,7 +53,8 @@ Chomp.registerTemplate('swc', function ({
     targets,
     deps: [...deps, ...!swcRc || ENV.CHOMP_EJECT ? [] : ['.swcrc'], ...ENV.CHOMP_EJECT ? [] : ['node_modules/@swc/core', 'node_modules/@swc/cli']],
     env,
-    display: 'stderr-only',
+    stdio: 'stderr-only',
+    display,
     run: `node ./node_modules/@swc/cli/bin/swc.js $DEP -o $TARGET${
         !swcRc ? ' --no-swcrc' : ''
       }${
