@@ -6,6 +6,8 @@
 
 Applies the [JSPM Generator](https://github.com/jspm/generator) to an HTML file to populate its import map for module loading using the JSPM Generator [htmlGenerate API](https://github.com/jspm/generator#generating-html).
 
+Alternatively, when targetting an `.importmap` import map file, will output the direct import map JSON.
+
 ## JSPM Template
 
 ### Template Options
@@ -30,8 +32,9 @@ extensions = ['chomp@0.1:jspm']
 [template-options.npm]
 auto-install = true
 
+# Generate an import map for a browser HTML page
 [[task]]
-name = 'test'
+name = 'build:html'
 target = 'public/app.html'
 dep = 'src/app.html'
 template = 'jspm'
@@ -39,6 +42,15 @@ template = 'jspm'
 env = ['browser', 'production', 'module']
 preload = true
 integrity = true
+
+# Generate an import map for a Deno app
+[[task]]
+name = 'build:deno-importmap'
+target = 'deno.importmap'
+dep = 'deno-app.js'
+template = 'jspm'
+[task.template-options]
+env = ['deno', 'production', 'module']
 ```
 
 ### Ejection

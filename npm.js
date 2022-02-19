@@ -1,3 +1,11 @@
+Chomp.registerTask({
+  name: 'npm:install',
+  display: 'init-only',
+  target: 'package-lock.json',
+  dep: 'package.json',
+  run: 'npm install'
+});
+
 Chomp.registerTemplate('npm', function ({ name, deps, env, display, templateOptions: { packages, dev, packageManager = 'npm', autoInstall, ...invalid } }) {
   if (Object.keys(invalid).length)
     throw new Error(`Invalid npm template option "${Object.keys(invalid)[0]}"`);
