@@ -28,11 +28,15 @@ extensions = ['chomp@0.1:npm']
 auto-install = true
 
 [[task]]
-name = 'install:swc'
+# To depend on an npm install, depend on its folder in node_modules
+deps = ['node_modules/cowsay']
+run = 'cowsay Chomp'
+
+[[task]]
 template = 'npm'
 [task.template-options]
 dev = true
-packages = ['@swc/cli', '@swc/core']
+packages = ['cowsay']
 ```
 
 ### Ejection
@@ -55,4 +59,5 @@ A comprehensive batcher is provided for npm with `auto-install: true` to ensure:
 Some considerations for future development:
 
 * Currently the invalidation check is based on checking `node_modules/[pkg]` exists, but ideally we should be checking the version matches the version expectations as well. This would likely require some kind of Chomp invalidation extension API to handle or alternatively the task should always invalidate but handle these checks internally.
+* It could be nicer to treat the npm install template as an addition to the task using the install instead of as a separate task, more like the assertion template pattern.
 * The other model for npm validation is running a direct `npm install` validating on the `package-lock.json` having a greater mtime than the `package.json`. This model is currently not supported by this extension at all, but might still be a useful workflow to provide.
