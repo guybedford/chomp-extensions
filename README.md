@@ -25,6 +25,7 @@ The following extensions are currently included:
 
 * [assert](docs/assert.md): Template for asserting the output of target or dependency of a task, useful for test tasks.
 * [babel](docs/babel.md): Template for Babel compilation. The [SWC template]() is highly recommended instead of Babel for performance.
+* [footprint](docs/footprint.md): Template for outputting file size charts for build summaries.
 * [jspm](docs/jspm.md): Template for JSPM import map generation.
 * [npm](docs/npm.md): Template for initializing npm and ensuring packages are installed / `npm install` has been run.
 * [prettier](docs/prettier.md): Template for running Prettier.
