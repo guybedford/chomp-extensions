@@ -13,7 +13,7 @@ Chomp.registerTemplate('footprint', function (task) {
     run: `  import { readFileSync } from 'fs';
   import { brotliCompressSync } from 'zlib';
 
-  const info = process.env.DEPS.split(';').map(dep => [dep, readFileSync(dep)])
+  const info = process.env.DEPS.split(':').map(dep => [dep, readFileSync(dep)])
       .map(([dep, source]) => [dep, source.byteLength.toLocaleString(), brotliCompressSync(source).byteLength.toLocaleString()]);
 
   const [c1, c2, c3] = info.map(([a, b, c]) => [a.length, b.length, c.length])
