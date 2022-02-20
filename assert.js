@@ -24,6 +24,7 @@ Chomp.registerTemplate('assert', function (task) {
     dep: '&next',
     engine: 'node',
     env,
+    envReplace: false,
     display: 'status-only',
     run: `
       import { strictEqual } from 'assert';
