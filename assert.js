@@ -1,13 +1,14 @@
 Chomp.registerTemplate('assert', function (task) {
   let env = {};
-  if (typeof task.templateOptions.expectEquals === 'string') {
+  if (typeof task.templateOptions.expectEquals === 'string')
     env['EXPECT_EQUALS'] = task.templateOptions.expectEquals;
-    if (task.targets.length === 0 && task.deps.length === 0)
-      throw new Error('Assertion tests must have a dep or target to assert.');
-    if (task.deps.some(dep => dep.indexOf('#') !== -1))
-      throw new Error('Assertion tests do not support interpolates.');
-    env['ASSERT_TARGET'] = task.targets[0] || task.deps[0];
-  }
+  if (typeof task.templateOptions.expectMatch === 'string')
+    env['EXPECT_MATCH'] = task.templateOptions.expectMatch;
+  if (task.targets.length === 0 && task.deps.length === 0)
+    throw new Error('Assertion tests must have a dep or target to assert.');
+  if (task.deps.some(dep => dep.indexOf('#') !== -1))
+    throw new Error('Assertion tests do not support interpolates.');
+  env['ASSERT_TARGET'] = task.targets[0] || task.deps[0];
   if (!task.name)
     throw new Error('Assertion tests must be named.');
   if (task.templateOptions.taskTemplate)
@@ -27,7 +28,7 @@ Chomp.registerTemplate('assert', function (task) {
     envReplace: false,
     display: 'status-only',
     run: `
-      import { strictEqual } from 'assert';
+      import { strictEqual, match } from 'assert';
       import { readFileSync } from 'fs';
 
       function rnlb (source) {
@@ -40,13 +41,20 @@ Chomp.registerTemplate('assert', function (task) {
       }
 
       let asserted = false;
-      if (typeof process.env.EXPECT_EQUALS === 'string') {
-        strictEqual(rnlb(readFileSync(process.env.ASSERT_TARGET, 'utf8')), rnlb(process.env.EXPECT_EQUALS));
+      const assertSource = readFileSync(process.env.ASSERT_TARGET, 'utf8');
+      
+      if (process.env.EXPECT_EQUALS !== undefined) {
         asserted = true;
+        strictEqual(rnlb(assertSource), rnlb(process.env.EXPECT_EQUALS));
       }
-      if (!asserted) {
-        throw new Error('Chomp assert template did not assert anything! There must be an template option "expect-equals" check.');
+      
+      if (process.env.EXPECT_MATCH !== undefined) {
+        asserted = true;
+        match(assertSource, new RegExp(process.env.EXPECT_MATCH));
       }
+
+      if (!asserted)
+        throw new Error(\`No assertions made for \${process.env.ASSERT_TARGET}\`);
     `
   }, task] : [task];
 });

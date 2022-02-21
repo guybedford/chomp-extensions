@@ -11,6 +11,7 @@ Allows wrapping an existing task with an assertion of its target or dependency f
 ### Template Options
 
 * `expect-equals` (_String_): The source text of the target (or dep in the case of no target) to assert.
+* `expect-match` (_String_): Regular expression match to apply to the target source.
 * `task-template` (_String_): The template string to use for the task. Used to wrap templated tasks.
 * `task-template-options` (_Dictionary_): The template options to use for the task, when `task-template` is used above.
 
@@ -29,6 +30,7 @@ run = 'echo "Chomp Chomp" > out.txt'
 template = 'assert'
 [task.template-options]
 expect-equals = 'Chomp Chomp'
+expect-match = '\w+ \w+'
 ```
 
 Where the task will fail with an assertion diff on failure (which isn't possible in the above example unless changing the `echo "Chomp Chomp"` contents).
@@ -43,7 +45,6 @@ When ejecting the assert template, ejection will entirely remove the assertion i
 
 Future additions to this extension might include:
 
-* Pattern matching the output instead of matching it directly.
 * Supporting multiple output checks, for example with interpolation tasks.
 * Supporting taking the expectation values from files instead of as a template option.
 * If supporting using expectations in files, having the ability to generate these file expectations as well.
