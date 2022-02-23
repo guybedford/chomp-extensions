@@ -65,8 +65,8 @@ Chomp.registerBatcher('npm', function (batch, running) {
   const defer = [], completionMap = {};
   let batchInstall = null;
   for (const { id, run, engine, env } of batch) {
-    if (engine !== 'cmd' || !run.startsWith(ENV.PACKAGE_MANAGER + ' ')) continue;
-    const args = run.slice(4).split(' ');
+    if (engine !== 'shell' || !run.startsWith(ENV.PACKAGE_MANAGER + ' ')) continue;
+    const args = run.slice(ENV.PACKAGE_MANAGER.length + 1).split(' ');
     if (args[0] === 'init' && args[1] === '-y' && args.length === 2) {
       const existingNpm = running.find(({ run }) => run.startsWith(ENV.PACKAGE_MANAGER + ' '));
       if (existingNpm) {
