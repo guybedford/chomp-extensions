@@ -41,7 +41,7 @@ Chomp.registerTemplate('npm', function ({ name, deps, env, display, templateOpti
       target: `node_modules/${versionIndex === -1 ? pkg : pkg.slice(0, versionIndex)}`,
       invalidation: 'not-found',
       display: 'none',
-      deps: [{ npm: 'package-lock.json', yarn: 'yarn.lock', pnpm: 'pnpm-lock.yaml' }[packageManager] || 'package.json'],
+      deps: ['package.json'],
       env,
       run: `${packageManager} install ${packages.join(' ')}${dev ? ' -D' : ''}`
     };
