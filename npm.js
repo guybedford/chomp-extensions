@@ -1,9 +1,25 @@
 Chomp.registerTask({
+  name: 'yarn:install',
+  display: 'init-only',
+  target: 'yarn.lock',
+  dep: 'package.json',
+  run: 'yarn'
+});
+
+Chomp.registerTask({
   name: 'npm:install',
   display: 'init-only',
   target: 'package-lock.json',
   dep: 'package.json',
   run: 'npm install'
+});
+
+Chomp.registerTask({
+  name: 'pnpm:install',
+  display: 'init-only',
+  target: 'pnpm-lock.yaml',
+  dep: 'package.json',
+  run: 'pnpm install'
 });
 
 Chomp.registerTemplate('npm', function ({ name, deps, env, display, templateOptions: { packages, dev, packageManager = 'npm', autoInstall, ...invalid } }) {
@@ -25,7 +41,7 @@ Chomp.registerTemplate('npm', function ({ name, deps, env, display, templateOpti
       target: `node_modules/${versionIndex === -1 ? pkg : pkg.slice(0, versionIndex)}`,
       invalidation: 'not-found',
       display: 'none',
-      deps: ['package.json'],
+      deps: [{ npm: 'package-lock.json', yarn: 'yarn.lock', pnpm: 'pnpm-lock.yaml' }[packageManager] || 'package.json'],
       env,
       run: `${packageManager} install ${packages.join(' ')}${dev ? ' -D' : ''}`
     };

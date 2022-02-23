@@ -1,6 +1,6 @@
 # npm Extension
 
-**Task Definitions**: _['package.json'](#packagejson-task), ['npm:install'](#npm-install-task)_<br/>
+**Task Definitions**: _['package.json'](#packagejson-task), ['npm:install'](#npm-install-task), ['yarn:install'](#yarn-install-task), ['pnpm:install'](#pnpm-install-task)_<br/>
 **Template Definitions**: _['npm'](#npm-template)_<br/>
 **Batcher Defintions**: _['npm'](#npm-batcher)_
 
@@ -50,6 +50,14 @@ When using `auto-install: true` and the `package.json` file does not exist, the 
 ## npm:install Task
 
 For any operation that depends on the global npm install, the `npm:install` task is automatically added when using this extension, which when depended upon will ensure the `package-lock.json` exists and has its mtime greater than the `package.json` mtime, running an `npm install` if not.
+
+## yarn:install Task
+
+Like the `npm:install` task but for Yarn and `yarn.lock`.
+
+## pnpm:install Task
+
+Like the `pnpm:install` task but for pnpm and `pnpm-lock.yaml`.
 
 ## npm Batcher
 
