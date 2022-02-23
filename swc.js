@@ -64,7 +64,7 @@ Chomp.registerTemplate('swc', function ({
       }${
         Object.keys(config).length ? ' ' + Object.keys(config).map(key => `-C ${key}=${config[key]}`).join(' ') : ''
       }`
-  }, ...ENV.CHOMP_EJECT ? [] : [...swcRc ? [] : [{
+  }, ...ENV.CHOMP_EJECT ? [] : [...!swcRc ? [] : [{
     target: '.swcrc',
     invalidation: 'not-found',
     display: 'none',
