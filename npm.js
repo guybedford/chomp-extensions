@@ -1,7 +1,7 @@
 Chomp.registerTask({
   name: 'yarn:install',
   display: 'init-only',
-  target: 'yarn.lock',
+  targets: ['yarn.lock', 'node_modules'],
   dep: 'package.json',
   run: 'yarn'
 });
@@ -9,7 +9,7 @@ Chomp.registerTask({
 Chomp.registerTask({
   name: 'npm:install',
   display: 'init-only',
-  target: 'package-lock.json',
+  targets: ['package-lock.json', 'node_modules'],
   dep: 'package.json',
   run: 'npm install'
 });
@@ -17,7 +17,7 @@ Chomp.registerTask({
 Chomp.registerTask({
   name: 'pnpm:install',
   display: 'init-only',
-  target: 'pnpm-lock.yaml',
+  targets: ['pnpm-lock.yaml', 'node_modules'],
   dep: 'package.json',
   run: 'pnpm install'
 });
