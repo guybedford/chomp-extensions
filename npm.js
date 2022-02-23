@@ -1,17 +1,17 @@
 Chomp.registerTask({
-  name: 'yarn:install',
-  display: 'init-only',
-  targets: ['yarn.lock', 'node_modules'],
-  dep: 'package.json',
-  run: 'yarn'
-});
-
-Chomp.registerTask({
   name: 'npm:install',
   display: 'init-only',
   targets: ['package-lock.json', 'node_modules'],
   dep: 'package.json',
   run: 'npm install'
+});
+
+Chomp.registerTask({
+  name: 'yarn:install',
+  display: 'init-only',
+  targets: ['yarn.lock', 'node_modules'],
+  dep: 'package.json',
+  run: 'yarn'
 });
 
 Chomp.registerTask({
@@ -41,7 +41,7 @@ Chomp.registerTemplate('npm', function ({ name, deps, env, display, templateOpti
       target: `node_modules/${versionIndex === -1 ? pkg : pkg.slice(0, versionIndex)}`,
       invalidation: 'not-found',
       display: 'none',
-      deps: ['package.json'],
+      dep: 'package.json',
       env,
       run: `${packageManager} install ${packages.join(' ')}${dev ? ' -D' : ''}`
     };
@@ -60,7 +60,6 @@ Chomp.registerTemplate('npm', function ({ name, deps, env, display, templateOpti
 
 Chomp.registerTask({
   target: 'package.json',
-  invalidation: 'not-found',
   display: 'none',
   run: `npm init -y`
 });
@@ -71,10 +70,9 @@ Chomp.registerTask({
 //    is already running, ties additional invocations to the existing one.
 // 3. When multiple npm install operations are running at the same time,
 //    combine them into a single install operation.
-const POOL_SIZE = Number(ENV.CHOMP_POOL_SIZE);
 
 Chomp.registerBatcher('npm', function (batch, running) {
-  if (running.length >= POOL_SIZE) return;
+  if (running.length >= ENV.CHOMP_POOL_SIZE) return;
   const defer = [], completionMap = {};
   let batchInstall = null;
   for (const { id, run, engine, env } of batch) {
