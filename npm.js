@@ -46,6 +46,7 @@ Chomp.registerTemplate('npm', function ({ name, deps, env, display, templateOpti
   }];
 });
 
+if (!ENV.CHOMP_EJECT)
 Chomp.registerTask({
   target: 'package.json',
   display: 'none',

@@ -85,6 +85,7 @@ Chomp.registerTemplate('swc', function ({
   }]];
 });
 
+if (!ENV.CHOMP_EJECT)
 Chomp.registerTask({
   name: 'swc:init',
   engine: 'deno',

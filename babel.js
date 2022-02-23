@@ -2,6 +2,7 @@ Chomp.addExtension('./npm.js');
 
 const defaultConfig = {};
 
+if (!ENV.CHOMP_EJECT)
 Chomp.registerTask({
   target: '.babelrc',
   display: 'none',
