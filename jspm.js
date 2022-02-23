@@ -17,7 +17,7 @@ Chomp.registerTemplate('jspm', function ({ name, targets, deps, env, templateOpt
     name,
     targets,
     invalidation: 'always',
-    deps: [...deps, ...ENV.CHOMP_EJECT ? [] : ['node_modules/@jspm/generator', 'node_modules/mkdirp']],
+    deps: [...deps, ...ENV.CHOMP_EJECT ? ['npm:install'] : ['node_modules/@jspm/generator', 'node_modules/mkdirp']],
     env,
     engine: 'node',
     run: `    import { Generator } from '@jspm/generator';

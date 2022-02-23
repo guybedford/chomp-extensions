@@ -1,28 +1,16 @@
+
+if (ENV.PACKAGE_MANAGER !== 'yarn' && ENV.PACKAGE_MANAGER !== 'pnpm')
+  ENV.PACKAGE_MANAGER = 'npm';
+
 Chomp.registerTask({
   name: 'npm:install',
   display: 'init-only',
-  targets: ['package-lock.json', 'node_modules'],
+  targets: [{ npm: 'package-lock.json', yarn: 'yarn.lock', pnpm: 'pnpm-lock.yaml' }[ENV.PACKAGE_MANAGER], 'node_modules'],
   dep: 'package.json',
-  run: 'npm install'
+  run: `${ENV.PACKAGE_MANAGER} install`
 });
 
-Chomp.registerTask({
-  name: 'yarn:install',
-  display: 'init-only',
-  targets: ['yarn.lock', 'node_modules'],
-  dep: 'package.json',
-  run: 'yarn'
-});
-
-Chomp.registerTask({
-  name: 'pnpm:install',
-  display: 'init-only',
-  targets: ['pnpm-lock.yaml', 'node_modules'],
-  dep: 'package.json',
-  run: 'pnpm install'
-});
-
-Chomp.registerTemplate('npm', function ({ name, deps, env, display, templateOptions: { packages, dev, packageManager = 'npm', autoInstall, ...invalid } }) {
+Chomp.registerTemplate('npm', function ({ name, deps, env, display, templateOptions: { packages, dev, autoInstall, ...invalid } }) {
   if (Object.keys(invalid).length)
     throw new Error(`Invalid npm template option "${Object.keys(invalid)[0]}"`);
   if (!packages)
@@ -43,7 +31,7 @@ Chomp.registerTemplate('npm', function ({ name, deps, env, display, templateOpti
       display: 'none',
       dep: 'package.json',
       env,
-      run: `${packageManager} install ${packages.join(' ')}${dev ? ' -D' : ''}`
+      run: `${ENV.PACKAGE_MANAGER} install ${packages.join(' ')}${dev ? ' -D' : ''}`
     };
   })] : [{
     name,
@@ -61,7 +49,7 @@ Chomp.registerTemplate('npm', function ({ name, deps, env, display, templateOpti
 Chomp.registerTask({
   target: 'package.json',
   display: 'none',
-  run: `npm init -y`
+  run: `${ENV.PACKAGE_MANAGER} init -y`
 });
 
 // Batcher for npm executions handles the following:
@@ -72,23 +60,24 @@ Chomp.registerTask({
 //    combine them into a single install operation.
 
 Chomp.registerBatcher('npm', function (batch, running) {
+  const INSTALL = ENV.PACKAGE_MANAGER === 'npm' ? 'install' : 'add';
   if (running.length >= ENV.CHOMP_POOL_SIZE) return;
   const defer = [], completionMap = {};
   let batchInstall = null;
   for (const { id, run, engine, env } of batch) {
-    if (engine !== 'cmd' || !run.startsWith('npm ')) continue;
+    if (engine !== 'cmd' || !run.startsWith(ENV.PACKAGE_MANAGER + ' ')) continue;
     const args = run.slice(4).split(' ');
     if (args[0] === 'init' && args[1] === '-y' && args.length === 2) {
-      const existingNpm = running.find(({ run }) => run.startsWith('npm '));
+      const existingNpm = running.find(({ run }) => run.startsWith(ENV.PACKAGE_MANAGER + ' '));
       if (existingNpm) {
         completionMap[id] = existingNpm.id;
         continue;
       }
     }
-    if (args[0] === 'install') {
+    if (args[0] === INSTALL) {
       const install = parseInstall(args.slice(1));
       if (!install) return;
-      if (running.find(({ run }) => run.startsWith('npm ')) ||
+      if (running.find(({ run }) => run.startsWith(ENV.PACKAGE_MANAGER + ' ')) ||
           batchInstall && batchInstall.isDev !== install.isDev) {
         defer.push(id);
         continue;
@@ -110,7 +99,7 @@ Chomp.registerBatcher('npm', function (batch, running) {
     }
   }
   const exec = batchInstall ? [{
-    run: `npm install${batchInstall.isDev ? ' -D' : ''} ${batchInstall.packages.join(' ')}`,
+    run: `${ENV.PACKAGE_MANAGER} ${INSTALL}${batchInstall.isDev ? ' -D' : ''} ${batchInstall.packages.join(' ')}`,
     env: batchInstall.env,
     engine: batchInstall.engine,
     ids: batchInstall.ids,

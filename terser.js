@@ -11,7 +11,7 @@ Chomp.registerTemplate('terser', function (task) {
   return [{
     name: task.name,
     targets: task.targets,
-    deps: [...task.deps, ...pjsonVersion ? ['package.json'] : [], ...ENV.CHOMP_EJECT ? [] : ['node_modules/terser']],
+    deps: [...task.deps, ...pjsonVersion ? ['package.json'] : [], ...ENV.CHOMP_EJECT ? ['npm:install'] : ['node_modules/terser']],
     engine: 'node',
     run: `  import { readFileSync, writeFileSync } from 'fs';
   import terser from 'terser';

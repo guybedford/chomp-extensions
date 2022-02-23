@@ -7,7 +7,7 @@ Chomp.registerTemplate('rollup', function (task) {
   const targets = entries.map(entry => outdir + '/' + entry.split('/').pop());
   return [{
     name: task.name,
-    deps: [...task.deps, ...ENV.CHOMP_EJECT ? [] : ['node_modules/rollup']],
+    deps: [...task.deps, ...ENV.CHOMP_EJECT ? ['npm:install'] : ['node_modules/rollup']],
     targets: [...new Set([...task.targets, ...targets])],
     run: `rollup ${entries.join(' ')} -d ${outdir}${sourceMaps ? ' -m' : ''}`
   }, ...ENV.CHOMP_EJECT ? [] : [{

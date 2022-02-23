@@ -18,7 +18,7 @@ Chomp.registerTemplate('babel', function ({ name, targets, deps, env, templateOp
   return [{
     name,
     targets,
-    deps: [...deps, ...!babelRc || ENV.CHOMP_EJECT ? [] : ['.babelrc'], ...ENV.CHOMP_EJECT ? [] : presets.map(p => `node_modules/${p}`), ...plugins.map(p => `node_modules/${p}`), ...ENV.CHOMP_EJECT ? [] : ['node_modules/@babel/core', 'node_modules/@babel/cli']],
+    deps: [...deps, ...!babelRc || ENV.CHOMP_EJECT ? [] : ['.babelrc'], ...ENV.CHOMP_EJECT ? ['npm:install'] : presets.map(p => `node_modules/${p}`), ...plugins.map(p => `node_modules/${p}`), ...ENV.CHOMP_EJECT ? [] : ['node_modules/@babel/core', 'node_modules/@babel/cli']],
     env,
     run: `babel $DEP -o $TARGET${
         sourceMaps ? ' --source-maps' : ''

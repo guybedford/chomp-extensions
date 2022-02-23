@@ -13,7 +13,10 @@ Supports validating dependencies are installed in `node_modules`, with the abili
 * `auto-install` (_Boolean_, default: `false`): Whether to automatically install packages if not present or to just log an install prompt to the console instead.
 * `dev` (_Boolean_, default: `false`): Whether to install packages as devDependencies.
 * `packages` (_String[]_): List of packages to install, optionally with semver versions or version ranges using the `@version` suffix.
-* `package-manager` (_String_, default `'npm'`): The npm package manager CLI bin to use.
+
+### Environment Variables
+
+* `PACKAGE_MANAGER` (_String_, default `'npm'`): Set the system environment variable to `"yarn"` or `"pnpm"` to change the package manager.
 
 ### Example
 
@@ -22,6 +25,10 @@ _chompfile.toml_
 version = 0.1
 
 extensions = ['chomp@0.1:npm']
+
+# Customize the package manager if desired
+[env]
+PACKAGE_MANAGER = 'yarn'
 
 # Automaticaly install dependencies as necessary, for _all_ npm template option usage
 [template-options.npm]
@@ -51,13 +58,7 @@ When using `auto-install: true` and the `package.json` file does not exist, the 
 
 For any operation that depends on the global npm install, the `npm:install` task is automatically added when using this extension, which when depended upon will ensure the `package-lock.json` exists and has its mtime greater than the `package.json` mtime, running an `npm install` if not.
 
-## yarn:install Task
-
-Like the `npm:install` task but for Yarn and `yarn.lock`.
-
-## pnpm:install Task
-
-Like the `pnpm:install` task but for pnpm and `pnpm-lock.yaml`.
+When setting the `PACKAGE_MANAGER` environment variable to `"yarn"` or `"pnpm"` this task will adjust to the associated install command and lockfile.
 
 ## npm Batcher
 

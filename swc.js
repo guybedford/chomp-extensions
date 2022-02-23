@@ -51,7 +51,7 @@ Chomp.registerTemplate('swc', function ({
   return [{
     name,
     targets,
-    deps: [...deps, ...!swcRc || ENV.CHOMP_EJECT ? [] : ['.swcrc'], ...ENV.CHOMP_EJECT ? [] : ['node_modules/@swc/core', 'node_modules/@swc/cli']],
+    deps: [...deps, ...!swcRc || ENV.CHOMP_EJECT ? [] : ['.swcrc'], ...ENV.CHOMP_EJECT ? ['npm:install'] : ['node_modules/@swc/core', 'node_modules/@swc/cli']],
     env,
     stdio: 'stderr-only',
     display,

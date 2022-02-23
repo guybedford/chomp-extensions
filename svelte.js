@@ -6,7 +6,7 @@ Chomp.registerTemplate('svelte', function ({ name, targets, deps, env, templateO
   return [{
     name,
     targets,
-    deps: [...deps, ...ENV.CHOMP_EJECT ? [] : ['node_modules/svelte', 'node_modules/mkdirp']],
+    deps: [...deps, ...ENV.CHOMP_EJECT ? ['npm:install'] : ['node_modules/svelte', 'node_modules/mkdirp']],
     env,
     engine: 'node',
     run: `    import { readFile, writeFile } from 'fs/promises';

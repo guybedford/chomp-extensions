@@ -6,7 +6,7 @@ Chomp.registerTemplate('prettier', function ({ name, targets, deps, env, templat
   return [{
     name,
     targets,
-    deps: [...deps, ...ENV.CHOMP_EJECT ? [] : ['node_modules/prettier']],
+    deps: [...deps, ...ENV.CHOMP_EJECT ? ['npm:install'] : ['node_modules/prettier']],
     invalidation: 'always',
     env,
     run: `prettier ${files} ${
