@@ -48,7 +48,7 @@ packages = ['cowsay']
 
 ### Ejection
 
-When ejecting the template, the install task is entirely removed.
+When ejecting the template, auto installation is entirely removed, while an `npm:install` task for the package manager is left.
 
 ## package.json Task
 
