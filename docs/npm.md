@@ -34,12 +34,15 @@ PACKAGE_MANAGER = 'yarn'
 [template-options.npm]
 auto-install = true
 
+# Task depends on npm install first running (if necessary)
 [[task]]
-# To depend on an npm install, depend on its folder in node_modules
-deps = ['node_modules/cowsay']
-run = 'cowsay Chomp'
+deps = ['npm:install']
+run = 'node app.js'
 
+# Add a dependency to a specific package or list of packages, which will be installed if not present
+# This pattern is used in templates themselves and ejects into an `npm:install` dependency
 [[task]]
+run = 'cowsay Chomp'
 template = 'npm'
 [task.template-options]
 dev = true
@@ -48,7 +51,7 @@ packages = ['cowsay']
 
 ### Ejection
 
-When ejecting the template, auto installation is entirely removed, while an `npm:install` task for the package manager is left.
+When ejecting the template, auto installation is entirely removed, while an `npm:install` task is always injected for the configured package manager.
 
 ## package.json Task
 
@@ -56,7 +59,7 @@ When using `auto-install: true` and the `package.json` file does not exist, the 
 
 ## npm:install Task
 
-For any operation that depends on the global npm install, the `npm:install` task is automatically added when using this extension, which when depended upon will ensure the `package-lock.json` exists and has its mtime greater than the `package.json` mtime, running an `npm install` if not.
+Any task can depend on the `npm:install` task to which when depended upon will ensure the `package-lock.json` and `node_modules` folder exists and have mtimes greater than the `package.json` mtime, running an `npm install` if not.
 
 When setting the `PACKAGE_MANAGER` environment variable to `"yarn"` or `"pnpm"` this task will adjust to the associated install command and lockfile.
 
@@ -66,11 +69,3 @@ A comprehensive batcher is provided for npm with `auto-install: true` to ensure:
 
 * Only a single `npm install` operation can happen at a time.
 * Where there are multiple usages of `npm install`, they are grouped together into the same install command to avoid repeated calls.
-
-## Roadmap
-
-Some considerations for future development:
-
-* Currently the invalidation check is based on checking `node_modules/[pkg]` exists, but ideally we should be checking the version matches the version expectations as well. This would likely require some kind of Chomp invalidation extension API to handle or alternatively the task should always invalidate but handle these checks internally.
-* It could be nicer to treat the npm install template as an addition to the task using the install instead of as a separate task, more like the assertion template pattern.
-* The other model for npm validation is running a direct `npm install` validating on the `package-lock.json` having a greater mtime than the `package.json`. This model is currently not supported by this extension at all, but might still be a useful workflow to provide.

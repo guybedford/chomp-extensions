@@ -6,8 +6,8 @@ const isWin = ENV.PATH.match(/\\|\//)[0] !== '/';
 Chomp.registerTask({
   name: 'npm:install',
   display: 'init-only',
-  target: { npm: 'package-lock.json', yarn: 'yarn.lock', pnpm: 'pnpm-lock.yaml' }[ENV.PACKAGE_MANAGER],
-  dep: 'package.json',
+  targets: ['node_modules', { npm: 'package-lock.json', yarn: 'yarn.lock', pnpm: 'pnpm-lock.yaml' }[ENV.PACKAGE_MANAGER]],
+  deps: ['package.json'],
   run: `${ENV.PACKAGE_MANAGER} install`
 });
 
