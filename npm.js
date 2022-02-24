@@ -8,6 +8,7 @@ Chomp.registerTask({
   display: 'init-only',
   targets: ['node_modules', { npm: 'package-lock.json', yarn: 'yarn.lock', pnpm: 'pnpm-lock.yaml' }[ENV.PACKAGE_MANAGER]],
   deps: ['package.json'],
+  validation: 'ok-only',
   run: `${ENV.PACKAGE_MANAGER} install`
 });
 
