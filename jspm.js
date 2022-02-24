@@ -34,7 +34,7 @@ Chomp.registerTemplate('jspm', function ({ name, targets, deps, env, templateOpt
       }
     });
 ${isImportMapTarget ? `
-    await Promise.all(process.env.DEPS.split(',')${ENV.CHOMP_EJECT ? '' : '.filter(dep => dep !== "node_modules/@jspm/generator" && dep !== "node_modules/mkdirp")'}.map(dep => generator.traceInstall('./' + dep)));
+    await Promise.all(process.env.DEPS.split(':')${ENV.CHOMP_EJECT ? '' : '.filter(dep => dep !== "node_modules/@jspm/generator" && dep !== "node_modules/mkdirp")'}.map(dep => generator.traceInstall('./' + dep)));
 
     mkdirp.sync(dirname(process.env.TARGET));
     await writeFile(process.env.TARGET, JSON.stringify(generator.getMap(), null, 2));`
