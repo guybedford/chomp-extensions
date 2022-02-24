@@ -36,7 +36,6 @@ Chomp.registerTemplate('npm', function ({ name, deps, env, display, templateOpti
       target: `node_modules/${versionIndex === -1 ? pkg : pkg.slice(0, versionIndex)}`,
       invalidation: 'not-found',
       display: 'none',
-      deps: ['npm:install'],
       env,
       run: `${ENV.PACKAGE_MANAGER} install ${packages.join(' ')}${dev ? ' -D' : ''}`
     };
