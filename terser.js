@@ -1,3 +1,5 @@
+Chomp.addExtension('./npm.js');
+
 Chomp.registerTemplate('terser', function (task) {
   if (task.engine || task.run)
     throw new Error('"engine", "run" not configurable for Terser template.');
