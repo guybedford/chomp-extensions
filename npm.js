@@ -57,6 +57,8 @@ if (!ENV.CHOMP_EJECT)
 Chomp.registerTask({
   target: 'package.json',
   display: 'none',
+  // this is useful becuase it stops force from rerunning it
+  invalidation = 'not-found',
   run: `${ENV.PACKAGE_MANAGER} init -y`
 });
 
