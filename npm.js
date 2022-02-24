@@ -1,18 +1,19 @@
 if (ENV.PACKAGE_MANAGER !== 'yarn' && ENV.PACKAGE_MANAGER !== 'pnpm')
   ENV.PACKAGE_MANAGER = 'npm';
 
+const isWin = ENV.PATH.match(/\\|\//)[0] !== '/';
+
 Chomp.registerTask({
   name: 'npm:install',
   display: 'init-only',
-  targets: ['node_modules', { npm: 'package-lock.json', yarn: 'yarn.lock', pnpm: 'pnpm-lock.yaml' }[ENV.PACKAGE_MANAGER]],
+  target: { npm: 'package-lock.json', yarn: 'yarn.lock', pnpm: 'pnpm-lock.yaml' }[ENV.PACKAGE_MANAGER],
   dep: 'package.json',
   run: `${ENV.PACKAGE_MANAGER} install`
 });
 
 const NPM_MISSING_MESSAGE = "\n\x1b[93mChomp\x1b[0m: Some packages are missing.";
 
-Chomp.registerTemplate('npm', function ({ name, deps, env, display, templateOptions: { packages, dev, autoInstall, ...invalid } }) {
-  const isWin = ENV.PATH.match(/\\|\//)[0] !== '/';
+Chomp.registerTemplate('npm', function ({ name, deps, env, display, templateOptions: { packages, dev, autoInstall, ...invalid } }) {  
   if (Object.keys(invalid).length)
     throw new Error(`Invalid npm template option "${Object.keys(invalid)[0]}"`);
   if (!packages)
