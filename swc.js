@@ -186,33 +186,26 @@ Chomp.registerTask({
           if (configFile)
             opts['config-file'] = configFile;
         }
-        const cfg = opts['config'] || globalOpts['config'] || {};
-        let typescript = cfg['jsc.parser.syntax'] === 'typescript';
-        if (!('jsc.parser.syntax' in cfg)) {
+        let typescript = opts['jsc.parser.syntax'] === 'typescript';
+        if (!('jsc.parser.syntax' in opts)) {
           typescript = sanitizeYesNo(await input.question('Enable SWC TypeScript support? [Yes] ', false), true);
-          if (!typescript) {
-            opts.config = opts.config || TOML.Section({});
-            opts.config['jsc.parser.syntax'] = 'ecmascript';
-          }
+          if (!typescript)
+            opts['jsc.parser.syntax'] = 'ecmascript';
         }
-        if (!('jsc.parser.jsx' in cfg) && !('jsc.parser.tsx' in cfg)) {
+        if (!('jsc.parser.jsx' in opts) && !('jsc.parser.tsx' in opts)) {
           const jsx = sanitizeYesNo(await input.question('Enable SWC JSX support? [No] ', false), false);
-          if (jsx) {
-            opts.config = opts.config || TOML.Section({});
-            opts.config['jsc.parser.' + (typescript ? 'tsx' : 'jsx')] = true;
-          }
+          if (jsx)
+            opts['jsc.parser.' + (typescript ? 'tsx' : 'jsx')] = true;
         }
-        if (cfg['jsc.parser.jsx'] || opts['config']?.['jsc.parser.jsx']) {
+        if (opts['jsc.parser.jsx'] || opts['config']?.['jsc.parser.jsx']) {
           const configFile = await input.question('Custom SWC config file [default: none]: ', false);
         }
-        if (!('jsc.minify' in cfg)) {
+        if (!('jsc.minify' in opts)) {
           const minify = sanitizeYesNo(await input.question('Enable SWC minify? [No] ', false), false);
-          if (minify) {
-            opts.config = opts.config || TOML.Section({});
-            opts.config['jsc.minify'] = true;
-          }
+          if (minify)
+            opts['jsc.minify'] = true;
         }
-        if (!('jsc.target' in cfg)) {
+        if (!('jsc.target' in opts)) {
           const choices = [
             'es2015',
             'es2016',
@@ -225,10 +218,8 @@ Chomp.registerTask({
           ];
           console.log('Select SWC Target [es2016]');
           const ecmaVersion = choices[(await input.choose(choices)).findIndex(x => x)];
-          if (ecmaVersion) {
-            opts.config = opts.config || TOML.Section({});
-            opts.config['jsc.target'] = ecmaVersion;
-          }
+          if (ecmaVersion)
+            opts['jsc.target'] = ecmaVersion;
         }
       }
     }
