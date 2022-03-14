@@ -12,9 +12,16 @@ Chomp.registerTemplate('swc', function ({
     sourceMaps = true,
     config = {},
     autoInstall,
-    ...invalid
+    ...spread
   }
 }) {
+  const invalid = [];
+  for (const key of Object.keys(spread)) {
+    if (key.startsWith('jsc.'))
+      config[key] = spread[key];
+    else
+      invalid.push(key);
+  }
   if (Object.keys(invalid).length)
     throw new Error(`Invalid swc template option "${Object.keys(invalid)[0]}"`);
   const isWin = ENV.PATH.match(/\\|\//)[0] !== '/';
