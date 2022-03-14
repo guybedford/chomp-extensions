@@ -11,10 +11,10 @@ Performs a single-file SWC compilation using the SWC CLI.
 ### Template Options
 
 * `auto-install` (_Boolean_, default: `false`): Whether to automatically install `@swc/core` and `@swc/cli` with npm if not present (using the [npm extension](npm.md)). The global npm extension `auto-install` option will take precedence here if not otherwise set.
-* `config` (_Record_): Custom SWC configurations provided by dotted property names (eg `'jsc.parser.syntax = 'typescript'`).
 * `config-file` (_String_): Custom SWC configuration file to use.
 * `source-maps` (_Boolean_, default `true`): Whether to output a source map for each compiled file.
 * `swc-rc` (_Boolean_, default: `false`): Whether to use the `.swcrc` project configuration file. Will be created if it does not exist with recommended SWC defaults.
+* `...config` (_Record_): Custom SWC configurations provided by dotted property names (eg `'jsc.target = 'es2019'`).
 
 ### Example
 
@@ -33,7 +33,8 @@ name = 'build:swc'
 target = 'lib/#.js'
 dep = 'src/#.ts'
 template = 'swc'
-[task.template-options.config]
+[task.template-options]
+source-maps = false
 'jsc.parser.tsx' = true
 'jsc.minify' = true
 'jsc.target' = 'es2017'
