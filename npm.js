@@ -2,6 +2,7 @@ if (ENV.PACKAGE_MANAGER !== 'yarn' && ENV.PACKAGE_MANAGER !== 'pnpm')
   ENV.PACKAGE_MANAGER = 'npm';
 
 const isWin = ENV.PATH.match(/\\|\//)[0] !== '/';
+const INSTALL = ENV.PACKAGE_MANAGER === 'npm' ? 'install' : 'add';
 
 Chomp.registerTask({
   name: 'npm:install',
@@ -9,7 +10,7 @@ Chomp.registerTask({
   targets: ['node_modules', { npm: 'package-lock.json', yarn: 'yarn.lock', pnpm: 'pnpm-lock.yaml' }[ENV.PACKAGE_MANAGER]],
   deps: ['package.json'],
   validation: 'ok-only',
-  run: `${ENV.PACKAGE_MANAGER} install`
+  run: `${ENV.PACKAGE_MANAGER} ${INSTALL}`
 });
 
 const NPM_MISSING_MESSAGE = "\n\x1b[93mChomp\x1b[0m: Some packages are missing.";
@@ -38,7 +39,7 @@ Chomp.registerTemplate('npm', function ({ name, deps, env, display, templateOpti
       invalidation: 'not-found',
       display: 'none',
       env,
-      run: `${ENV.PACKAGE_MANAGER} install ${packages.join(' ')}${dev ? ' -D' : ''}`
+      run: `${ENV.PACKAGE_MANAGER} ${INSTALL} ${packages.join(' ')}${dev ? ' -D' : ''}`
     };
   })] : [{
     name,
@@ -48,7 +49,7 @@ Chomp.registerTemplate('npm', function ({ name, deps, env, display, templateOpti
     targets: nodeModulesTargets,
     deps: ['npm:install'],
     run: (isWin ? 'If (' + nodeModulesTargets.map(t => `(Test-Path -Path "${t}")`).join(' -And ') + ') { } Else { ' : nodeModulesTargets.map(t => `[ ! -d "${t}" ] || `).join('')) + 
-      `echo "${NPM_MISSING_MESSAGE} Run \x1b[1m${ENV.PACKAGE_MANAGER} install ${packages.join(' ')}${dev ? ' -D' : ''}\x1b[0m, or add \x1b[36mauto-install = true\x1b[0m to the npm template configuration.\n"` +
+      `echo "${NPM_MISSING_MESSAGE} Run \x1b[1m${ENV.PACKAGE_MANAGER} ${INSTALL} ${packages.join(' ')}${dev ? ' -D' : ''}\x1b[0m, or add \x1b[36mauto-install = true\x1b[0m to the npm template configuration.\n"` +
       (isWin ? '\n}' : '')
   }];
 });
@@ -70,7 +71,6 @@ Chomp.registerTask({
 //    combine them into a single install operation.
 
 Chomp.registerBatcher('npm', function (batch, running) {
-  const INSTALL = ENV.PACKAGE_MANAGER === 'npm' ? 'install' : 'add';
   if (running.length >= ENV.CHOMP_POOL_SIZE) return;
   const defer = [], completionMap = {};
   let batchInstall = null;
