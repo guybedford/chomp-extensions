@@ -14,7 +14,7 @@ Chomp.registerTemplate('jspm', function ({ name, targets, deps, env, templateOpt
   if (targets.length === 0)
     throw new Error('JSPM template requires a task target HTML file.');
   const mainTarget = targets.find(target => target.includes('#')) || targets[0];
-  const isImportMapTarget = mainTarget && mainTarget.endsWith('.importmap');
+  const isImportMapTarget = mainTarget && (mainTarget.endsWith('.importmap') || mainTarget.endsWith('.json'));
   const { resolutions } = generateOpts;
   const noHtmlOpts = preload === undefined && integrity === undefined && whitespace === undefined && esModuleShims === undefined;
   return [{
