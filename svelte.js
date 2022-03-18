@@ -1,6 +1,6 @@
 Chomp.addExtension('chomp@0.1:npm');
 
-Chomp.registerTemplate('svelte', function ({ name, targets, deps, env, templateOptions: { svelteConfig = null, sveltePreprocess = !svelteConfig, sourceMaps = true, autoInstall, ...invalid } }) {
+Chomp.registerTemplate('svelte', function ({ name, targets, deps, env, templateOptions: { svelteConfig = null, sveltePreprocess = true, sourceMaps = true, autoInstall, ...invalid } }) {
   if (Object.keys(invalid).length)
     throw new Error(`Invalid svelte template option "${Object.keys(invalid)[0]}"`);
   return [{
@@ -18,8 +18,8 @@ Chomp.registerTemplate('svelte', function ({ name, targets, deps, env, templateO
 ${sveltePreprocess ? `    import sveltePreprocess from 'svelte-preprocess';\n` : ''}
     ${svelteConfig
       ? `const { default: svelteConfig } = await import(${svelteConfig === true ? '"./svelte.config.js"' : svelteConfig});`
-      : `const svelteConfig = {${sveltePreprocess ? ' preprocess: sveltePreprocess() ' : ''}};`}
-
+      : `const svelteConfig = {};`}
+${sveltePreprocess ? `    svelteConfig.preprocess = svelteConfig.preprocess || sveltePreprocess;\n` : ''}
     const filename = process.env.DEP;
     const compilerOptions = {
       css: false,
