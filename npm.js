@@ -10,7 +10,7 @@ Chomp.registerTask({
   targets: ['node_modules', { npm: 'package-lock.json', yarn: 'yarn.lock', pnpm: 'pnpm-lock.yaml' }[ENV.PACKAGE_MANAGER]],
   deps: ['package.json'],
   validation: 'ok-only',
-  run: `${ENV.PACKAGE_MANAGER} ${INSTALL}`
+  run: `${ENV.PACKAGE_MANAGER} install`
 });
 
 const NPM_MISSING_MESSAGE = "\n\x1b[93mChomp\x1b[0m: Some packages are missing.";
