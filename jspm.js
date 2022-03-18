@@ -1,4 +1,4 @@
-Chomp.addExtension('./npm.js');
+Chomp.addExtension('chomp@0.1:npm');
 
 const objStringify = (obj, indent = '    ') => JSON.stringify(obj, null, 2).slice(1, -2).replace(/\n/g, '\n' + indent).replace(/"(\w+)": /g, '$1: ');
 

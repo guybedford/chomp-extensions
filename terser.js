@@ -1,4 +1,4 @@
-Chomp.addExtension('./npm.js');
+Chomp.addExtension('chomp@0.1:npm');
 
 Chomp.registerTemplate('terser', function (task) {
   if (task.engine || task.run)

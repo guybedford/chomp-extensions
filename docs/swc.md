@@ -10,7 +10,7 @@ Performs a single-file SWC compilation using the SWC CLI.
 
 ### Template Options
 
-* `auto-install` (_Boolean_, default: `false`): Whether to automatically install `@swc/core` and `@swc/cli` with npm if not present (using the [npm extension](npm.md)). The global npm extension `auto-install` option will take precedence here if not otherwise set.
+* `auto-install` (_Boolean_, default: `true`): Whether to automatically install `@swc/core` and `@swc/cli` with npm if not present (using the [npm extension](npm.md)). The global npm extension `auto-install` option will take precedence here if not otherwise set.
 * `config-file` (_String_): Custom SWC configuration file to use.
 * `source-maps` (_Boolean_, default `true`): Whether to output a source map for each compiled file.
 * `swc-rc` (_Boolean_, default: `false`): Whether to use the `.swcrc` project configuration file. Will be created if it does not exist with recommended SWC defaults.
@@ -23,10 +23,6 @@ _chompfile.toml_
 version = 0.1
 
 extensions = ['chomp@0.1:swc']
-
-# Automaticaly install SWC dependencies as necessary
-[template-options.npm]
-auto-install = true
 
 [[task]]
 name = 'build:swc'

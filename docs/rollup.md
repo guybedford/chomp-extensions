@@ -10,7 +10,7 @@ Performs a chunked RollupJS build on the provided application entry point files.
 
 ### Template Options
 
-* `auto-install` (_Boolean_, default: `false`): Whether to automatically install `rollup` if not present (using the [npm extension](npm.md)). The global npm extension `auto-install` option will take precedence here if not otherwise set.
+* `auto-install` (_Boolean_, default: `true`): Whether to automatically install `rollup` if not present (using the [npm extension](npm.md)). The global npm extension `auto-install` option will take precedence here if not otherwise set.
 * `entries` (_String[]_): List of application entry points.
 * `outdir` (_String[]_): The build output directory.
 * `source-maps` (_Boolean_, default: `true`): Whether to output source maps for the build.
@@ -22,10 +22,6 @@ _chompfile.toml_
 version = 0.1
 
 extensions = ['chomp@0.1:rollup']
-
-# Automaticaly install Rollup as necessary
-[template-options.npm]
-auto-install = true
 
 [[task]]
 name = 'build'

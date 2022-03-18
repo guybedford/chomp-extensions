@@ -10,9 +10,10 @@ Builds a Svelte template into a JS and CSS file.
 
 ### Template Options
 
-* `auto-install` (_Boolean_, default: `false`): Whether to automatically install `svelte` if not present (using the [npm extension](npm.md)). The global npm extension `auto-install` option will take precedence here if not otherwise set.
+* `auto-install` (_Boolean_, default: `true`): Whether to automatically install `svelte` if not present (using the [npm extension](npm.md)). The global npm extension `auto-install` option will take precedence here if not otherwise set.
 * `source-maps` (_Boolean_, default: `true`): Whether to output source maps.
 * `svelte-config` (_String | Boolean_, default: `false`): Custom Svelte configuration file to use, when set to `true` defaults to `svelte-config.js`.
+* `svelte-preprocess` (_Boolean_, default: `true` for no `svelte-config`, `false` when `svelte-config` is set): Automatically applies the [svelte-preprocess](https://github.com/sveltejs/svelte-preprocess) default Svelte preprocessor.
 
 ### Example
 
@@ -21,10 +22,6 @@ _chompfile.toml_
 version = 0.1
 
 extensions = ['chomp@0.1:svelte']
-
-# Automaticaly install Svelte as necessary
-[template-options.npm]
-auto-install = true
 
 [[task]]
 name = 'build:svelte'

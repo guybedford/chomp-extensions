@@ -12,7 +12,7 @@ Alternatively, when targetting an `.importmap` import map file, will output the 
 
 ### Template Options
 
-* `auto-install` (_Boolean_, default: `false`): Whether to automatically install `@babel/core`, `@babel/cli` and the used presets or plugins with npm if not present (using the [npm extension](npm.md)). The global npm extension `auto-install` option will take precedence here if not otherwise set.
+* `auto-install` (_Boolean_, default: `true`): Whether to automatically install `@babel/core`, `@babel/cli` and the used presets or plugins with npm if not present (using the [npm extension](npm.md)). The global npm extension `auto-install` option will take precedence here if not otherwise set.
 * `env` (_String[]_, default: `['browser', 'production', 'module']`): The list of [environment exports conditions](https://github.com/jspm/generator#env) to build.
 * `es-module-shims` (_String_): Custom URL to use for the [ES Module Shims](https://github.com/guybedford/es-module-shims) import maps polyfill. Defaults to the latest version on JSPM.
 * `integrity` (_Boolean_, default: `false`): Whether to inject integrity metadata for the module graph (relies on preload tags).
@@ -27,10 +27,6 @@ _chompfile.toml_
 version = 0.1
 
 extensions = ['chomp@0.1:jspm']
-
-# Automaticaly install JSPM dependencies as necessary
-[template-options.npm]
-auto-install = true
 
 # Generate an import map for a browser HTML page
 [[task]]

@@ -15,7 +15,7 @@ Chomp.registerTask({
 
 const NPM_MISSING_MESSAGE = "\n\x1b[93mChomp\x1b[0m: Some packages are missing.";
 
-Chomp.registerTemplate('npm', function ({ name, deps, env, display, templateOptions: { packages, dev, autoInstall, ...invalid } }) {  
+Chomp.registerTemplate('npm', function ({ name, deps, env, display, templateOptions: { packages, dev, autoInstall = true, ...invalid } }) {  
   if (Object.keys(invalid).length)
     throw new Error(`Invalid npm template option "${Object.keys(invalid)[0]}"`);
   if (!packages)
@@ -27,10 +27,7 @@ Chomp.registerTemplate('npm', function ({ name, deps, env, display, templateOpti
   return ENV.CHOMP_EJECT ? [] : autoInstall ? [{
     name,
     display,
-    deps: [...deps, ...packages.map(pkg => {
-      const versionIndex = pkg.indexOf('@', 1);
-      return `node_modules/${versionIndex === -1 ? pkg : pkg.slice(0, versionIndex)}`;
-    })],
+    deps: [...deps, ...nodeModulesTargets],
     serial: true
   }, ...packages.map(pkg => {
     const versionIndex = pkg.indexOf('@', 1);

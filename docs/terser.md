@@ -10,7 +10,7 @@ Performs a single-file Terser minification.
 
 ### Template Options
 
-* `auto-install` (_Boolean_, default: `false`): Whether to automatically install `terser` with npm if not present (using the [npm extension](npm.md)). The global npm extension `auto-install` option will take precedence here if not otherwise set.
+* `auto-install` (_Boolean_, default: `true`): Whether to automatically install `terser` with npm if not present (using the [npm extension](npm.md)). The global npm extension `auto-install` option will take precedence here if not otherwise set.
 * `...terserOptions`. Options are exactly per [Terser documentation](https://github.com/terser/terser).
 
 ### Example
@@ -20,10 +20,6 @@ _chompfile.toml_
 version = 0.1
 
 extensions = ['chomp@0.1:terser']
-
-# Automaticaly install Terser as necessary
-[template-options.npm]
-auto-install = true
 
 [[task]]
 name = 'test'

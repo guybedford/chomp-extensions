@@ -10,7 +10,7 @@ Performs a single-file Babel compilation using the Babel CLI.
 
 ### Template Options
 
-* `auto-install` (_Boolean_, default: `false`): Whether to automatically install `@babel/core`, `@babel/cli` and the used presets or plugins with npm if not present (using the [npm extension](npm.md)). The global npm extension `auto-install` option will take precedence here if not otherwise set.
+* `auto-install` (_Boolean_, default: `true`): Whether to automatically install `@babel/core`, `@babel/cli` and the used presets or plugins with npm if not present (using the [npm extension](npm.md)). The global npm extension `auto-install` option will take precedence here if not otherwise set.
 * `babel-rc` (_Boolean_, default: `false`): Whether to read the `.babelrc` configuration in the current project (and creating it if it doesn't exist).
 * `config-file` (_String_): A custom Babel configuration file to use.
 * `plugins` (_String[]_): List of plugins to use.
@@ -24,10 +24,6 @@ _chompfile.toml_
 version = 0.1
 
 extensions = ['chomp@0.1:babel']
-
-# Automaticaly install Babel dependencies as necessary
-[template-options.npm]
-auto-install = true
 
 [[task]]
 name = 'test'

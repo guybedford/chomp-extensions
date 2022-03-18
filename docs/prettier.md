@@ -12,7 +12,7 @@ Since it affects all files, no caching is provided.
 
 ### Template Options
 
-* `auto-install` (_Boolean_, default: `false`): Whether to automatically install `prettier` if not present (using the [npm extension](npm.md)). The global npm extension `auto-install` option will take precedence here if not otherwise set.
+* `auto-install` (_Boolean_, default: `true`): Whether to automatically install `prettier` if not present (using the [npm extension](npm.md)). The global npm extension `auto-install` option will take precedence here if not otherwise set.
 * `check` (_Boolean_, default: `false`): Whether to run a Prettier check run.
 * `config` (_String_): Custom Prettier configuration.
 * `files` (_String_): Files to apply Prettier to. Defaults to all project files.
@@ -26,10 +26,6 @@ _chompfile.toml_
 version = 0.1
 
 extensions = ['chomp@0.1:prettier']
-
-# Automaticaly install Prettier as necessary
-[template-options.npm]
-auto-install = true
 
 [[task]]
 name = 'prettier'

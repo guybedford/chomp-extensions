@@ -1,4 +1,4 @@
-Chomp.addExtension('./npm.js');
+Chomp.addExtension('chomp@0.1:npm');
 
 Chomp.registerTemplate('rollup', function (task) {
   const { outdir = 'dist', entries, sourceMaps = true, autoInstall } = task.templateOptions;

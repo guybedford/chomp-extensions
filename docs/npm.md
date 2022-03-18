@@ -10,7 +10,7 @@ Supports validating dependencies are installed in `node_modules`, with the abili
 
 ### Template Options
 
-* `auto-install` (_Boolean_, default: `false`): Whether to automatically install packages if not present or to just log an install prompt to the console instead.
+* `auto-install` (_Boolean_, default: `true`): Whether to automatically install packages if not present or to just log an install prompt to the console instead.
 * `dev` (_Boolean_, default: `false`): Whether to install packages as devDependencies.
 * `packages` (_String[]_): List of packages to install, optionally with semver versions or version ranges using the `@version` suffix.
 
@@ -29,10 +29,6 @@ extensions = ['chomp@0.1:npm']
 # Customize the package manager if desired
 [env]
 PACKAGE_MANAGER = 'yarn'
-
-# Automaticaly install dependencies as necessary, for _all_ npm template option usage
-[template-options.npm]
-auto-install = true
 
 # Task depends on npm install first running (if necessary)
 [[task]]
