@@ -16,10 +16,10 @@ Chomp.registerTemplate('terser', function (task) {
     deps: [...task.deps, ...pjsonVersion ? ['package.json'] : [], ...ENV.CHOMP_EJECT ? ['npm:install'] : ['node_modules/terser']],
     engine: 'node',
     run: `  import { readFileSync, writeFileSync } from 'fs';
-  import terser from 'terser';
+  import { minify } from 'terser';
 
 ${pjsonVersion ? `  const pjson = JSON.parse(readFileSync('package.json', 'utf8'));` : ''}
-  const { code, map } = terser.minify(readFileSync(process.env.DEP, 'utf8'), ${
+  const { code, map } = await minify(readFileSync(process.env.DEP, 'utf8'), ${
     pjsonVersion ? optionsStr.replace('"preamble": ' + JSON.stringify(preamble), '"preamble": `' + preamble.replace(/(\`|\${)/, '\\$1').replace('#PJSON_VERSION', '${pjson.version}') + '`') : optionsStr
   });
 
