@@ -160,8 +160,8 @@ Chomp.registerTask({
       const inDir = sanitizeDirInput(await input.question('Which folder do you want to build with SWC? [src] ', false) || 'src');
       let ext = await input.question('What file extension do you want to build from this folder? [.js] ', false) || '.js';
       if (ext[0] !== '.') ext = '.' + ext;
-      task.dep = inDir + '#' + ext.trim();
-      task.target = sanitizeDirInput(await input.question('Which folder do you want to output the built JS files to? [lib] ', false) || 'lib') + '#.js';
+      task.dep = inDir + '##' + ext.trim();
+      task.target = sanitizeDirInput(await input.question('Which folder do you want to output the built JS files to? [lib] ', false) || 'lib') + '##.js';
       task.template = 'swc';
       (chompfile.task = chompfile.task || []).push(task);
       return task;
