@@ -37,7 +37,8 @@ run = '''
 
 [[task]]
 name = 'test:init'
-run = 'rm -r output ; echo recover'
+validation = 'none'
+run = 'rm -r output'
 
 [[task]]
 name = 'prettier'
