@@ -17,7 +17,7 @@ const NPM_MISSING_MESSAGE = "\n\x1b[93mChomp\x1b[0m: Some packages are missing."
 
 Chomp.registerTemplate('npm', function ({ name, deps, env, display, templateOptions: { packages, dev, autoInstall = true, ...invalid } }) {  
   if (Object.keys(invalid).length)
-    throw new Error(`Invalid npm template option "${Object.keys(invalid)[0]}"`);
+    throw new Error(`Invalid npm template option "${Object.keys(invalid)[0]}", expected one of "packages", "dev" or "auto-install".`);
   if (!packages)
     throw new Error('npm template requires the "packages" option to be a list of packages to install.');
   const nodeModulesTargets = packages.map(pkg => {

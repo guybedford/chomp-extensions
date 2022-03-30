@@ -2,7 +2,7 @@ Chomp.addExtension('chomp@0.1:npm');
 
 Chomp.registerTemplate('svelte', function ({ name, targets, deps, env, templateOptions: { svelteConfig = null, sveltePreprocess = true, sourceMaps = true, autoInstall, ...invalid } }) {
   if (Object.keys(invalid).length)
-    throw new Error(`Invalid svelte template option "${Object.keys(invalid)[0]}"`);
+    throw new Error(`Invalid svelte template option "${Object.keys(invalid)[0]}", expected one of "svelte-config", "svelte-preprocess", "source-maps" or "auto-install".`);
   return [{
     name,
     targets,
