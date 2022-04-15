@@ -15,6 +15,7 @@ Chomp.registerTemplate('swc', function ({
     ...spread
   }
 }) {
+  if (configFile) swcRc = true;
   const invalid = [];
   for (const key of Object.keys(spread)) {
     if (key.startsWith('jsc.'))
@@ -58,7 +59,7 @@ Chomp.registerTemplate('swc', function ({
   return [{
     name,
     targets,
-    deps: [...deps, ...!swcRc || ENV.CHOMP_EJECT ? [] : ['.swcrc'], ...ENV.CHOMP_EJECT ? ['npm:install'] : ['node_modules/@swc/core', 'node_modules/@swc/cli']],
+    deps: [...deps, ...!swcRc || ENV.CHOMP_EJECT ? [] : [configFile ?? '.swcrc'], ...ENV.CHOMP_EJECT ? ['npm:install'] : ['node_modules/@swc/core', 'node_modules/@swc/cli']],
     env,
     stdio: 'stderr-only',
     display,
@@ -72,7 +73,7 @@ Chomp.registerTemplate('swc', function ({
         Object.keys(config).length ? ' ' + Object.keys(config).map(key => `-C ${key}=${config[key]}`).join(' ') : ''
       }`
   }, ...ENV.CHOMP_EJECT ? [] : [...!swcRc ? [] : [{
-    target: '.swcrc',
+    target: configFile ?? '.swcrc',
     invalidation: 'not-found',
     display: 'none',
     run: `
