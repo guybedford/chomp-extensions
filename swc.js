@@ -15,7 +15,7 @@ Chomp.registerTemplate('swc', function ({
     ...spread
   }
 }) {
-  swcRc = configFile ?? swcRc
+  if (configFile) swcRc = true;
   const invalid = [];
   for (const key of Object.keys(spread)) {
     if (key.startsWith('jsc.'))
