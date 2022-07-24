@@ -11,7 +11,7 @@ Performs a single-file Terser minification.
 ### Template Options
 
 * `auto-install` (_Boolean_, default: `true`): Whether to automatically install `terser` with npm if not present (using the [npm extension](npm.md)). The global npm extension `auto-install` option will take precedence here if not otherwise set.
-* `...terserOptions`. Options are exactly per [Terser documentation](https://github.com/terser/terser).
+* `...terserOptions`. Options are exactly per [Terser documentation](https://github.com/terser/terser), as kabab-case keys per Chomp serialization conventions.
 
 ### Example
 
@@ -29,8 +29,10 @@ template = 'terser'
 [task.template-options]
 module = true
 compress = { ecma = 6, unsafe = true }
-output = { preamble = '/* App@1.2.3 Min */' }
+source-maps = true
 ```
+
+When using `source-maps`, the `sourceURL` comment and sources content will be automatically enabled by the extension.
 
 ### Ejection
 
