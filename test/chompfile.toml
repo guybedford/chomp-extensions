@@ -5,6 +5,7 @@ extensions = [
   'chomp@0.1:assert',
 	'chomp@0.1:babel',
 	'chomp@0.1:jspm',
+  'chomp@0.1:ncc',
   'chomp@0.1:prettier',
 	'chomp@0.1:rollup',
   'chomp@0.1:svelte',
@@ -17,7 +18,7 @@ auto-install = true
 [[task]]
 name = 'test'
 serial = true
-deps = ['test:init', 'prettier', 'jspm', 'svelte', 'swc', 'babel', 'rollup']
+deps = ['test:init', 'prettier', 'jspm', 'svelte', 'swc', 'babel', 'rollup', 'ncc']
 
 [[task]]
 name = 'check'
@@ -209,3 +210,61 @@ var p = 5;
 export { p };
 //# sourceMappingURL=test.js.map
 '''
+
+[[task]]
+name = 'ncc'
+target = 'output/ncc/build.js'
+dep = 'fixtures/app.js'
+template = 'assert'
+[task.template-options.task-template-options]
+sourceMap = true
+[task.template-options]
+task-template = 'ncc'
+expect-equals = """
+/******/ (() => { // webpackBootstrap
+/******/ \tvar __webpack_modules__ = ({});
+/************************************************************************/
+/******/ \t// The module cache
+/******/ \tvar __webpack_module_cache__ = {};
+/******/ \t
+/******/ \t// The require function
+/******/ \tfunction __nccwpck_require__(moduleId) {
+/******/ \t\t// Check if module is in cache
+/******/ \t\tvar cachedModule = __webpack_module_cache__[moduleId];
+/******/ \t\tif (cachedModule !== undefined) {
+/******/ \t\t\treturn cachedModule.exports;
+/******/ \t\t}
+/******/ \t\t// Create a new module (and put it into the cache)
+/******/ \t\tvar module = __webpack_module_cache__[moduleId] = {
+/******/ \t\t\t// no module.id needed
+/******/ \t\t\t// no module.loaded needed
+/******/ \t\t\texports: {}
+/******/ \t\t};
+/******/ \t
+/******/ \t\t// Execute the module function
+/******/ \t\tvar threw = true;
+/******/ \t\ttry {
+/******/ \t\t\t__webpack_modules__[moduleId](module, module.exports, __nccwpck_require__);
+/******/ \t\t\tthrew = false;
+/******/ \t\t} finally {
+/******/ \t\t\tif(threw) delete __webpack_module_cache__[moduleId];
+/******/ \t\t}
+/******/ \t
+/******/ \t\t// Return the exports of the module
+/******/ \t\treturn module.exports;
+/******/ \t}
+/******/ \t
+/************************************************************************/
+/******/ \t/* webpack/runtime/compat */
+/******/ \t
+/******/ \tif (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
+/******/ \t
+/************************************************************************/
+var __webpack_exports__ = {};
+console.log(readFileSync(__nccwpck_require__.ab + "asset.txt"));
+
+module.exports = __webpack_exports__;
+/******/ })()
+;
+//# sourceMappingURL=app.js.map
+"""
