@@ -1,6 +1,6 @@
 Chomp.addExtension('chomp@0.1:npm');
 
-Chomp.registerTemplate('ncc', ({ name, targets, deps, env, templateOptions: { assets = true, sourceMap, autoInstall, ...invalid} }) => {
+Chomp.registerTemplate('ncc', ({ name, targets, deps, env, templateOptions: { assets = true, sourceMap, autoInstall, esm, ...invalid} }) => {
   if (Object.keys(invalid).length > 0)
     throw new Error(`Invalid key ${Object.keys(invalid)[0]} for ncc template`);
 
@@ -16,7 +16,8 @@ Chomp.registerTemplate('ncc', ({ name, targets, deps, env, templateOptions: { as
   import mkdirp from 'mkdirp';` : ''}
 
   const { code, map, assets } = await ncc(path.resolve(process.env.DEP), {
-    filename: process.env.DEP,
+    filename: process.env.DEP,${typeof esm === 'boolean' ? `
+    esm: ${String(esm)},` : ''}
     sourceMap: ${sourceMap ? `true,
     sourceMapRegister: false` : 'false'},
     quiet: true
