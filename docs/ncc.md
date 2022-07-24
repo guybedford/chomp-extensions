@@ -13,6 +13,7 @@ Uses [ncc](https://github.com/vercel/ncc) to compile a Node.js application into 
 * `assets`: Set to *false* to disable asset builds.
 * `autoInstall`: Set to *false* to disable auto install of plugins packages and RollupJS.
 * `sourceMap`: Set to *true* to enable source maps for the build.
+* `esm`: Set to *true* to output an ES module, or *false* to output CJS. Defaults to format of the input file.
 
 ### Example
 
