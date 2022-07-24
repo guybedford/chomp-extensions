@@ -12,6 +12,7 @@ Chomp.registerTemplate('rollup', task => {
     templateOptions.input = templateOptions.entries;
     templateOptions.output = templateOptions.output || {};
     templateOptions.output.dir = templateOptions.outdir || 'dist';
+    templateOptions.output.sourcemap = true;
     delete templateOptions.outdir;
     delete templateOptions.entries;
   }
