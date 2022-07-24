@@ -23,13 +23,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Install latest nightly
-      uses: actions-rs/toolchain@v1
-      with:
-          toolchain: nightly
-          override: true
-          components: cargo
-    - name: Install Chomp
-      run: cargo install chompbuild
+    - name: Setup Chomp
+      uses: guybedford/chomp-action@v1
     - name: Run Template Tests
       run: chomp test

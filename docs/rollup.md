@@ -4,9 +4,9 @@
 **Template Definitions**: _['rollup'](#rollup-template)_<br />
 **Batcher Definitions**: _None_
 
-Performs a chunked RollupJS build, exposing the full RollupJS configuration per the documentation.
+Performs a chunked RollupJS build, exposing the full RollupJS configuration per the [documentation](https://rollupjs.org/guide/en/).
 
-## Babel Template
+## Rollup Template
 
 ### Template Options
 
@@ -55,7 +55,3 @@ Where `dist/app.js` and `dist/feature.js` will be created as inlining all their 
 ### Ejection
 
 When ejecting the template, only the Rollup compilation CLI command will be ejected, without any auto installation tasks.
-
-## Roadmap
-
-This plugin is very simple currently and needs to be extended to support comprehensive RollupJS build customization options.
