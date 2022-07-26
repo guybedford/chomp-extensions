@@ -30,7 +30,7 @@ extensions = ['chomp@0.1:prettier']
 [[task]]
 name = 'prettier'
 template = 'prettier'
-deps = ['src/**/*']
+deps = ['src/**/*', 'docs/**/*.md']
 [task.template-options]
 ignore-path = '.prettierignore'
 files = 'src/**/*.@(js|json|yml) docs/**/*.md'
