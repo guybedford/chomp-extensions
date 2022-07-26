@@ -28,6 +28,7 @@ The following extensions are currently included:
 * [footprint](docs/footprint.md): Template for outputting file size charts for build summaries.
 * [jspm](docs/jspm.md): Template for JSPM import map generation.
 * [npm](docs/npm.md): Template for initializing npm and ensuring packages are installed / `npm install` has been run.
+* [ncc](docs/ncc.md): Template for ncc Node.js builder.
 * [prettier](docs/prettier.md): Template for running Prettier.
 * [replace](docs/replace.md): Template for source replacements.
 * [rollup](docs/rollup.md): Template for RollupJS compilation.

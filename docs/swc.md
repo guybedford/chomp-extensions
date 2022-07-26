@@ -26,8 +26,8 @@ extensions = ['chomp@0.1:swc']
 
 [[task]]
 name = 'build:swc'
-target = 'lib/#.js'
-dep = 'src/#.ts'
+target = 'lib/##.js'
+dep = 'src/##.ts'
 template = 'swc'
 [task.template-options]
 source-maps = false
