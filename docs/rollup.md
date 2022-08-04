@@ -16,7 +16,8 @@ Exact same options as the RollupJS configuration documentation with a few except
 * `warn: false` is supported to disable warnings.
 * `#PJSON_VERSION` is supported for version substitution in the `banner` output option.
 * `plugin` is an array of `{ package, ...pluginOptions }` option, where the plugin is imported as `import '<package>'`.
-* `autoInstall`: Set to *false* to disable auto install of plugins packages and RollupJS.
+* `auto-install`: Set to *false* to disable auto install of plugins packages and RollupJS.
+* `clear-dir`: Boolean, defaults to *false*, whether to remove all files in the output directory before starting the build.
 
 The template can run in two "modes":
 
@@ -39,6 +40,7 @@ template = 'rollup'
 input = ['src/app.js', 'src/feature.js']
 onwarn = false
 sourcemap = true
+clear-dir = true
 [task.template-options.output]
 dir = 'dist'
 banner = '''/*!
