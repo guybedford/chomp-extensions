@@ -2,7 +2,7 @@ Chomp.addExtension('chomp@0.1:npm');
 
 Chomp.registerTemplate('rollup', task => {
   const { name, targets, deps, env, templateOptions } = task;
-  const { autoInstall, onwarn } = templateOptions;
+  const { autoInstall, onwarn, clearDir } = templateOptions;
   if (templateOptions.plugins) {
     console.log(`Warning: "plugins" option in RollupJS template is no longer supported and will be deprecated, instead use separate "plugin" entries.\nSee the documentation at https://github.com/guybedford/chomp-extensions/blob/main/docs/rollup.md for more information.`);
     templateOptions.plugin = templateOptions.plugins.map(plugin => ({ 'package': plugin }));
@@ -46,6 +46,8 @@ Chomp.registerTemplate('rollup', task => {
   const inputOpts = JSON.stringify(templateOptions, null, 2).replace(/\n/g, '\n  ');
   const outputOpts = JSON.stringify(output, null, 2).replace(/\n/g, '\n  ');
 
+  const delDir = clearDir && output.dir ? output.dir : null;
+
   return [{
     name,
     targets: rollupTargets ? [...new Set([...targets, ...rollupTargets])] : targets,
@@ -53,9 +55,10 @@ Chomp.registerTemplate('rollup', task => {
     env,
     engine: 'node',
     run: `  import { rollup } from 'rollup';
-  ${plugins.map((plugin, idx) => `import * as plugin${idx + 1} from '${plugin}';`).join('\n  ')}${pjsonVersion ? `
-  import { readFileSync } from 'fs';
-
+  ${plugins.map((plugin, idx) => `import * as plugin${idx + 1} from '${plugin}';`).join('\n  ')}${pjsonVersion || delDir ? `
+  import { ${pjsonVersion ? 'readFileSync' : ''}${delDir && pjsonVersion ? ', ' : ''}${delDir ? 'rmSync' : ''} } from 'fs';` : ''}
+${delDir ? `
+  rmSync('${JSON.stringify(delDir).slice(1, -1)}', { recursive: true });` : ''}${pjsonVersion ? `
   const { version } = JSON.parse(readFileSync('package.json', 'utf8'));` : ''}
 
   const bundle = await rollup({
