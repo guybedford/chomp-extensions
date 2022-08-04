@@ -42,6 +42,7 @@ Chomp.registerTemplate('rollup', task => {
   
   const rollupInput = templateOptions.input ? JSON.stringify(templateOptions.input, null, 2).replace(/\n/g, '\n    ') : 'process.env.DEP';
   delete templateOptions.input;
+  delete templateOptions.clearDir;
   
   const inputOpts = JSON.stringify(templateOptions, null, 2).replace(/\n/g, '\n  ');
   const outputOpts = JSON.stringify(output, null, 2).replace(/\n/g, '\n  ');
@@ -55,8 +56,8 @@ Chomp.registerTemplate('rollup', task => {
     env,
     engine: 'node',
     run: `  import { rollup } from 'rollup';
-  ${plugins.map((plugin, idx) => `import * as plugin${idx + 1} from '${plugin}';`).join('\n  ')}${pjsonVersion || delDir ? `
-  import { ${pjsonVersion ? 'readFileSync' : ''}${delDir && pjsonVersion ? ', ' : ''}${delDir ? 'rmSync' : ''} } from 'fs';` : ''}
+  ${plugins.map((plugin, idx) => `import * as plugin${idx + 1} from '${plugin}';`).join('\n  ')}${pjsonVersion || delDir ?
+    `import { ${pjsonVersion ? 'readFileSync' : ''}${delDir && pjsonVersion ? ', ' : ''}${delDir ? 'rmSync' : ''} } from 'fs';` : ''}
 ${delDir ? `
   rmSync('${JSON.stringify(delDir).slice(1, -1)}', { recursive: true });` : ''}${pjsonVersion ? `
   const { version } = JSON.parse(readFileSync('package.json', 'utf8'));` : ''}
