@@ -52,7 +52,7 @@ Chomp.registerTemplate('rollup', task => {
   return [{
     name,
     targets: rollupTargets ? [...new Set([...targets, ...rollupTargets])] : targets,
-    deps: [...new Set([...deps, ...rollupDeps]), ...ENV.CHOMP_EJECT ? ['npm:install'] : ['node_modules/rollup', ...plugins.map(p => `node_modules/${p}`)]],
+    deps: [...new Set([...deps, ...rollupDeps]), ...ENV.CHOMP_EJECT ? ['npm:install'] : ['node_modules/rollup', ...plugins.map(p => `node_modules/${p}`)], ...pjsonVersion ? ['package.json'] : []],
     env,
     engine: 'node',
     run: `  import { rollup } from 'rollup';
