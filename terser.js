@@ -10,8 +10,8 @@ Chomp.registerTemplate('terser', function (task) {
   const { autoInstall } = opts;
   const targetName = task.targets[0].split('/').pop();
   if (opts.sourceMap === true)
-    opts.sourceMap = { filename: targetName, url: `${targetName}.map`, includeSources: true };
-  const optionsStr = JSON.stringify(opts, null, 2).replace(/\n/g, '\n  ');
+    opts.sourceMap = { filename: targetName, url: '$TARGET', includeSources: true };
+  const optionsStr = JSON.stringify(opts, null, 2).replace(/\n/g, '\n  ').replace('"$TARGET"', 'basename(process.env.TARGET)');
 
   return [{
     name: task.name,
