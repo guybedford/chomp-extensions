@@ -11,7 +11,7 @@ Chomp.registerTemplate('terser', function (task) {
   const targetName = task.targets[0].split('/').pop();
   if (opts.sourceMap === true)
     opts.sourceMap = { filename: targetName, url: '$TARGET', includeSources: true };
-  const optionsStr = JSON.stringify(opts, null, 2).replace(/\n/g, '\n  ').replace('"$TARGET"', 'basename(process.env.TARGET)');
+  const optionsStr = JSON.stringify(opts, null, 2).replace(/\n/g, '\n  ').replace('"$TARGET"', '`${basename(process.env.TARGET)}.map`');
 
   return [{
     name: task.name,
@@ -28,7 +28,7 @@ ${pjsonVersion ? `  const pjson = JSON.parse(readFileSync('package.json', 'utf8'
   });
 
   writeFileSync(process.env.TARGET, code);
-${opts.sourceMap ? '  writeFileSync(\`\${process.env.TARGET}.map\`, map);\n' : ''}`
+${opts.sourceMap ? '  writeFileSync(`${process.env.TARGET}.map`, map);\n' : ''}`
   }, ...ENV.CHOMP_EJECT ? [] : [{
     template: 'npm',
     templateOptions: {
