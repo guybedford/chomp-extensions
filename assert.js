@@ -58,7 +58,7 @@ Chomp.registerTemplate('assert', function (task) {
       if (process.env.EXPECT_PATTERN !== undefined) {
         const uniqueStr = 'VERY_UNIQUE_STRING';
         asserted = true;
-        match(rnlb(assertSource), new RegExp(rnlb(process.env.EXPECT_PATTERN).replace(/\\\\\\*/g, uniqueStr).replace(/[-[\\]{}()+?.,\\\\^$|#]/g, '\\\\$&').replace(/\\*/g, '.*').replace(new RegExp(uniqueStr, 'g'), '\\\\*')));
+        match(rnlb(assertSource), new RegExp('^' + rnlb(process.env.EXPECT_PATTERN).replace(/\\\\\\*/g, uniqueStr).replace(/[-[\\]{}()+?.,\\\\^$|#]/g, '\\\\$&').replace(/\\*/g, '.*').replace(new RegExp(uniqueStr, 'g'), '\\\\*') + '$'));
       }
 
       if (!asserted)
