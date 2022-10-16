@@ -12,6 +12,7 @@ Allows wrapping an existing task with an assertion of its target or dependency f
 
 * `expect-equals` (_String_): The source text of the target (or dep in the case of no target) to assert.
 * `expect-match` (_String_): Regular expression match to apply to the target source.
+* `expect-pattern` (_String_): Instead of exact string or regex, this only supports `*` as matching any set of characters and `\*` as a literal.
 * `task-template` (_String_): The template string to use for the task. Used to wrap templated tasks.
 * `task-template-options` (_Dictionary_): The template options to use for the task, when `task-template` is used above.
 

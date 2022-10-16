@@ -4,6 +4,8 @@ Chomp.registerTemplate('assert', function (task) {
     env['EXPECT_EQUALS'] = task.templateOptions.expectEquals;
   if (typeof task.templateOptions.expectMatch === 'string')
     env['EXPECT_MATCH'] = task.templateOptions.expectMatch;
+  if (typeof task.templateOptions.expectPattern === 'string')
+    env['EXPECT_PATTERN'] = task.templateOptions.expectPattern;
   if (task.targets.length === 0 && task.deps.length === 0)
     throw new Error('Assertion tests must have a dep or target to assert.');
   if (task.deps.some(dep => dep.indexOf('#') !== -1))
@@ -51,6 +53,12 @@ Chomp.registerTemplate('assert', function (task) {
       if (process.env.EXPECT_MATCH !== undefined) {
         asserted = true;
         match(assertSource, new RegExp(process.env.EXPECT_MATCH));
+      }
+
+      if (process.env.EXPECT_PATTERN !== undefined) {
+        const uniqueStr = 'VERY_UNIQUE_STRING';
+        asserted = true;
+        match(rnlb(assertSource), new RegExp(rnlb(process.env.EXPECT_PATTERN).replace(/\\\\\\*/g, uniqueStr).replace(/[-[\\]{}()+?.,\\\\^$|#]/g, '\\\\$&').replace(/\\*/g, '.*').replace(new RegExp(uniqueStr, 'g'), '\\\\*')));
       }
 
       if (!asserted)
