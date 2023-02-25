@@ -27,7 +27,7 @@ ${pjsonVersion ? `  const pjson = JSON.parse(readFileSync('package.json', 'utf8'
     pjsonVersion ? optionsStr.replace('"preamble": ' + JSON.stringify(preamble), '"preamble": `' + preamble.replace(/(\`|\${)/, '\\$1').replace('#PJSON_VERSION', '${pjson.version}') + '`') : optionsStr
   });
 
-  writeFileSync(process.env.TARGET, code);
+  writeFileSync(process.env.TARGET, code + "\\n");
 ${opts.sourceMap ? '  writeFileSync(`${process.env.TARGET}.map`, map);\n' : ''}`
   }, ...ENV.CHOMP_EJECT ? [] : [{
     template: 'npm',
