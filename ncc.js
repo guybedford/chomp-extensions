@@ -13,7 +13,7 @@ Chomp.registerTemplate('ncc', ({ name, targets, deps, env, templateOptions: { as
     run: `  import ncc from '@vercel/ncc';
   import path from 'path';
   import { writeFileSync } from 'fs';${assets ? `
-  import mkdirp from 'mkdirp';` : ''}
+  import { mkdirp } from 'mkdirp';` : ''}
 
   const { code, map, assets } = await ncc(path.resolve(process.env.DEP), {
     filename: process.env.DEP,${typeof esm === 'boolean' ? `

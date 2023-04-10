@@ -13,7 +13,7 @@ Chomp.registerTemplate('svelte', function ({ name, targets, deps, env, templateO
     import { compile${svelteConfig || sveltePreprocess ? ', preprocess' : ''} } from 'svelte/compiler';
     import MagicString from 'magic-string';
     import { parse } from 'es-module-lexer/js';
-    import mkdirp from 'mkdirp';
+    import { mkdirp } from 'mkdirp';
     import { dirname, extname } from 'path';
 ${sveltePreprocess ? `    import sveltePreprocess from 'svelte-preprocess';\n` : ''}
     ${svelteConfig
