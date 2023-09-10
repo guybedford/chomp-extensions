@@ -30,7 +30,7 @@ Chomp.registerTemplate('swc', function ({
     jsc: {
       parser: {
         syntax: 'typescript',
-        importAssertions: true,
+        importAttributes: true,
         topLevelAwait: true,
         importMeta: true,
         privateMethod: true,
@@ -38,7 +38,7 @@ Chomp.registerTemplate('swc', function ({
       },
       target: 'es2016',
       experimental: {
-        keepImportAssertions: true
+        keepImportAttributes: true
       }
     }
   };

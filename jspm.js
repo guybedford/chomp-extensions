@@ -27,7 +27,8 @@ Chomp.registerTemplate('jspm', function ({ name, targets, deps, env, templateOpt
     run: `    import { Generator } from '@jspm/generator';
     import { readFile, writeFile } from 'fs/promises';
     import { pathToFileURL } from 'url';
-    import { mkdirp } from 'mkdirp';
+    import * as _mkdirp from 'mkdirp';
+    const mkdirp = _mkdirp.mkdirp || _mkdirp.default;
     import { dirname } from 'path';
 
     const generator = new Generator({
