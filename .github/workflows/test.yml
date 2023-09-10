@@ -13,7 +13,6 @@ jobs:
   build-ubuntu:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
     - name: Setup Chomp
       uses: guybedford/chomp-action@v1
       env:
