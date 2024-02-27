@@ -38,7 +38,7 @@ Chomp.registerTemplate('swc', function ({
       },
       target: 'es2016',
       experimental: {
-        keepImportAttributes: true
+        keepImportAssertions: true
       }
     }
   };
