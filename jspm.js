@@ -47,7 +47,8 @@ ${isImportMapTarget ? `
     const htmlSource = await readFile(process.env.DEP, 'utf-8');
 
     mkdirp.sync(dirname(process.env.TARGET));
-    await writeFile(process.env.TARGET, await generator.htmlGenerate(htmlSource, {
+    await writeFile(process.env.TARGET, await generator.htmlInject(htmlSource, {
+      trace: true,
       htmlUrl: pathToFileURL(process.env.TARGET)${noHtmlOpts ? '' : ',      ' + objStringify({ preload, integrity, whitespace, esModuleShims })}
     }));`}
 `
