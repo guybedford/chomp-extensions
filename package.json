@@ -1,6 +1,6 @@
 {
   "name": "@chompbuild/extensions",
-  "version": "0.1.30",
+  "version": "0.1.31",
   "description": "Chomp extensions",
   "exports": {
     "./*.js": "./*.js"
